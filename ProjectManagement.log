@@ -1,0 +1,11 @@
+2020-03-08 21:42:12 DEBUG CompanyDAO:27 - Generating report: report.name=%s
+2020-03-08 21:45:45 DEBUG ProjectsSummaryDAO:27 - Generating report: report.name=%s
+2020-03-08 21:46:04 DEBUG CompanyDAO:27 - Generating report: report.name=%s
+2020-03-08 21:56:57 DEBUG ProjectsSummaryDAO:27 - Generating report: report.name=select proj.date, proj.proj_name, proj.count from (select  distinct p.project_name as proj_name, max(p.start_date) as date, count(dp.developer_id) as count from projects p join dev_proj dp on p.id = dp.project_id group by p.project_name order by p.project_name) proj
+2020-03-08 21:58:23 DEBUG CompanyDAO:33 - Creating company: company.title=Dream IT
+2020-03-09 11:41:02 DEBUG DeveloperDAO:31 - Creating developer: developer.name=Max Belyi
+2020-03-09 13:21:33 DEBUG DevelopersByLevelDAO:27 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = ?
