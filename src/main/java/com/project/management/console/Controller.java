@@ -94,6 +94,7 @@ public class Controller {
             }
             default: {
                 view.write("Enter the correct command");
+                readOption();
                 break;
             }
         }
@@ -122,6 +123,7 @@ public class Controller {
             default: {
                 view.write("Enter the correct command");
                 readOption();
+                break;
             }
 
         }
@@ -144,6 +146,7 @@ public class Controller {
             }
             default: {
                 view.write("Enter the correct command");
+                readOption();
                 break;
             }
         }
@@ -171,6 +174,7 @@ public class Controller {
             }
             default: {
                 view.write("Enter the correct command");
+                readOption();
                 break;
             }
         }
@@ -204,7 +208,11 @@ public class Controller {
                 service.allProjects();
                 readOption();
             }
-
+            default: {
+                view.write("Enter the correct command");
+                readOption();
+                break;
+            }
         }
     }
 

@@ -9,3 +9,6 @@
     join skills s on ds.skill_id = s.id) devskill
 group by devskill.developer_name) level
 where level.level = ?
+2020-03-10 11:15:51 DEBUG DevelopersByProjectDAO:24 - Generating report: report.name=select developer_name from developers d join dev_proj dp on d.id = dp.developer_id where dp.project_id in (select id from projects where project_name = ?);
+2020-03-10 11:18:40 DEBUG CompanyDAO:33 - Creating company: company.title=ABC
+2020-03-10 11:26:10 DEBUG CompanyDAO:33 - Creating company: company.title=asd

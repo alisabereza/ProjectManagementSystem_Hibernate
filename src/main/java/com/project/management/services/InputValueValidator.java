@@ -45,11 +45,12 @@ public class InputValueValidator {
 
     public static LocalDate validateDate(View view) {
         LocalDate localDate = null;
-        boolean trueDate = false;
-        while (!trueDate) {
+        //boolean trueDate = false;
+        while (localDate==null) {
             try {
                 localDate = LocalDate.parse(view.read());
-                trueDate = true;
+              //  trueDate = true;
+               // break;
             } catch (DateTimeParseException e) {
                 System.out.println("Please enter correct value (date)");
                 localDate = LocalDate.parse(view.read());
