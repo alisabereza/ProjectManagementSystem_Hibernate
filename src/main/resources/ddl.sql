@@ -42,8 +42,9 @@ create table projects
     cost int,
     company_id INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (company_id) REFERENCES companies (id)
+    FOREIGN KEY (company_id)  REFERENCES companies (id)
 );
+
 
 create table customers
 (

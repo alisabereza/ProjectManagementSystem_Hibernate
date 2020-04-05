@@ -1,120 +1,65 @@
 package com.project.management.domainDAO;
 
-import com.project.management.database.DataBaseConnector;
+
+import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.domain.Company;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class CompanyDAO extends DataAccessObject<Company> {
     private final static Logger LOG = LogManager.getLogger(CompanyDAO.class);
-    private HikariDataSource dataSource = DataBaseConnector.getConnector();
+    private SessionFactory sessionFactory;
 
-    private final static String INSERT = "INSERT INTO companies (company_name, start_date) " +
-            "VALUES(?, ?);";
-
-    private final static String DELETE_DEV_PROJ = "DELETE FROM dev_proj where developer_id = (select id from developers where company_id = (select id from companies where company_name = ?))";
-    private final static String DELETE_DEV_SKILLS = "DELETE FROM dev_skills where developer_id = (select id from developers where company_id = (select id from companies where company_name = ?))";
-    private final static String DELETE_CUST_PROJ = "DELETE FROM cust_proj where project_id = (select id from projects where company_id = (select id from companies where company_name = ?))";
-    private final static String DELETE_PROJ = "DELETE FROM projects where company_id = (select id from companies where company_name = ?)";
-    private final static String DELETE_DEV = "DELETE FROM developers where company_id = (select id from companies where company_name = ?)";
-    private final static String DELETE_COMPANY = "DELETE FROM companies where company_name = ?";
-
+    public CompanyDAO() {
+        sessionFactory = HibernateDatabaseConnector.getSessionFactory();
+    }
 
     @Override
     public void create(Company company) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            LOG.debug(String.format("Creating company: company.title=%s", company.getName()));
-            statement.setString(1, company.getName());
-            statement.setDate(2, Date.valueOf(company.getStart_date()));
-            statement.execute();
-            System.out.println("Company " + company.toString() + " created");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error creating company: company.title=%s", company.getName()), e);
-            System.out.println(e.getMessage());
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Creating company: %s", company.getName()));
+        session.save(company);
+        transaction.commit();
+        session.close();
+    }
+
+    @Override
+    public void read(Company company) {
 
     }
 
     @Override
-    public void read(Company company)  {
+    public void update(Company company) {
 
     }
 
     @Override
-    public void update(Company company)  {
-
+    public void delete(Company company) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Deleting company: %s", company.getName()));
+        session.delete(company);
+        LOG.debug(String.format("Company deleted: %s", company.getName()));
+        transaction.commit();
+        session.close();
     }
 
-    @Override
-    public void delete(String company)  {
-        try (
-                Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement(DELETE_DEV_PROJ)) {
+    public Company findByName(String name) {
 
-            LOG.debug(String.format("Deleting company developer-project dependency: company.title=%s", company));
-            statement.setString(1, company);
-            statement.execute();
-            System.out.println("Developer-project dependencies deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting company developer-project dependency: company.title=%s", company), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-
-             PreparedStatement statement = connection.prepareStatement(DELETE_DEV_SKILLS)) {
-            LOG.debug(String.format("Deleting company developer-skill dependency: company.title=%s", company));
-            statement.setString(1, company);
-            statement.execute();
-            System.out.println("Developer-skills dependencies deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting company developer-project dependency: company.title=%s", company), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_CUST_PROJ)) {
-            LOG.debug(String.format("Deleting company customer-project dependency: company.title=%s", company));
-            statement.setString(1, company);
-            statement.execute();
-            System.out.println("Customer-project dependencies deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting company customer-project dependency: company.title=%s", company), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_PROJ)) {
-            LOG.debug(String.format("Deleting company projects: company.title=%s", company));
-            statement.setString(1, company);
-            statement.execute();
-            System.out.println("Company developers deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting company projects: company.title=%s", company), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_DEV)) {
-            LOG.debug(String.format("Deleting company developers: company.title=%s", company));
-            statement.setString(1, company);
-            statement.execute();
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting company developers: company.title=%s", company), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_COMPANY)) {
-            LOG.debug(String.format("Deleting company: company.title=%s", company));
-            statement.setString(1, company);
-            statement.execute();
-            System.out.println("Company " + company + " deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting company: company.title=%s", company), e);
-            System.out.println(e.getMessage());
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding company, name = %s", name));
+        NativeQuery query = session.createNativeQuery("select * from companies where company_name= '" + name + "'");
+        query.addEntity(Company.class);
+        Company result = (Company) query.getSingleResult();
+        transaction.commit();
+        session.close();
+        return result;
     }
 }

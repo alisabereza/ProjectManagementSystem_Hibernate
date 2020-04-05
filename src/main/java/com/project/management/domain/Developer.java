@@ -1,20 +1,73 @@
 package com.project.management.domain;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Table(name ="developers")
+@Entity
 public class Developer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private int id;
+
+    @Column(name="developer_name")
     private String name;
+
+    @Column(name="developer_age")
     private int age;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="developer_gender")
     private DeveloperGender gender;
+
+    @Column(name="salary")
     private int salary;
 
-    public Developer(String name, int salary) {
-        this.name = name;
-        this.salary = salary;
-    }
+    @ManyToOne // connection to Company: many Projects one Company
+    @JoinColumn(name = "company_id") // company_id is Company id
+    private Company company;
 
-    public Developer(String name, int age, DeveloperGender gender, int salary) {
+    @ManyToMany //fetch = FetchType.EAGER
+     @JoinTable(
+            name = "dev_skills",
+            joinColumns = @JoinColumn(name = "developer_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+
+    )
+    private List<Skill> skills;
+
+    @ManyToMany //fetch = FetchType.EAGER
+    @JoinTable(
+            name = "dev_proj",
+            joinColumns = @JoinColumn(name = "developer_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+
+    )
+    private List<Project> projects;
+
+
+    public Developer () {}
+
+    public Developer(String name, int age, DeveloperGender gender, int salary, Company company) {
         this.name = name;
         this.age = age;
         this.gender = gender;
+        this.salary = salary;
+        this.company = company;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Developer(String name, int salary) {
+        this.name = name;
         this.salary = salary;
     }
 
@@ -58,7 +111,11 @@ public class Developer {
                 ", age=" + age +
                 ", gender=" + gender +
                 ", salary=" + salary +
+                ( (company==null)?", null": ", company =" + company.getName()) +
                 '}';
     }
 
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 }

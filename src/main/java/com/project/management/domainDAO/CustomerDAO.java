@@ -1,39 +1,44 @@
 package com.project.management.domainDAO;
 
-import com.project.management.database.DataBaseConnector;
+import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.domain.Customer;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
 public class CustomerDAO extends DataAccessObject<Customer> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
-    private HikariDataSource dataSource = DataBaseConnector.getConnector();
-    private final static String INSERT = "INSERT INTO customers (customer_name, customer_phone) " +
-            "VALUES(?, ?);";
+    private SessionFactory sessionFactory;
 
-    private final static String DELETE_CUST_PROJ = "DELETE FROM cust_proj WHERE customer_id=(SELECT id FROM customers WHERE customer_name=?);";
-    private final static String DELETE = "DELETE FROM customers WHERE customer_name=?;";
+    public CustomerDAO() {
+        sessionFactory = HibernateDatabaseConnector.getSessionFactory();
+    }
 
-    private final static String UPDATE = "UPDATE customers set customer_phone=? where customer_name = ?;";
+    public Customer findByPhone(String phone) {
+
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding customer, phone = %s", phone));
+        NativeQuery query = session.createNativeQuery("select * from customers where customer_phone= '" + phone + "'");
+        query.addEntity(Customer.class);
+        Customer result = (Customer) query.getSingleResult();
+        transaction.commit();
+        session.close();
+        return result;
+    }
+
 
     @Override
     public void create(Customer customer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            LOG.debug(String.format("Creating customer: customer.name=%s", customer.getName()));
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getPhone());
-            statement.execute();
-            System.out.println("Customer " + customer.toString() + " created.");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error creating customer: customer.name=%s", customer.getName()), e);
-            System.out.println(e.getMessage());
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Creating customer: %s", customer.getName()));
+        session.save(customer);
+        transaction.commit();
+        session.close();
     }
 
     @Override
@@ -43,43 +48,21 @@ public class CustomerDAO extends DataAccessObject<Customer> {
 
     @Override
     public void update(Customer customer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-            LOG.debug(String.format("Updating customer: customer.name=%s", customer.getName()));
-            statement.setString(1, customer.getPhone());
-            statement.setString(2, customer.getName());
-            statement.execute();
-            System.out.println("Customer " + customer.toString() + " updated.");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error updating customer: customer.name=%s", customer.getName()), e);
-            System.out.println("Error in DAO: " + e.getMessage());
-        }
-
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Updating customer: customer.name=%s", customer.getName()));
+        session.update(customer);
+        transaction.commit();
+        session.close();
     }
 
     @Override
-    public void delete(String customer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_CUST_PROJ)) {
-            LOG.debug(String.format("Deleting customer-projects dependency: customer.name=%s", customer));
-            System.out.println("Trying to delete customer projects: " + customer);
-            statement.setString(1, customer);
-            statement.execute();
-            System.out.println("Customer projects deleted.");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting customer-projects dependency: customer.name=%s", customer), e);
-            System.out.println("Could not delete customer project: " + e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            LOG.debug(String.format("Deleting customer: customer.name=%s", customer));
-            System.out.println("Trying to delete customer: " + customer);
-            statement.setString(1, customer);
-            statement.execute();
-            System.out.println("Customer " + customer + " deleted.");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting customer: customer.name=%s", customer), e);
-            System.out.println("Could not delete customer: " + e.getMessage());
-        }
+    public void delete(Customer customer) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Deleting customer = %s", customer.getName()));
+        session.delete(customer);
+        transaction.commit();
+        session.close();
     }
 }

@@ -1,14 +1,38 @@
 package com.project.management.domain;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Table(name = "customers")
+@Entity
 public class Customer {
+
+    @Column(name = "customer_name")
     private String name;
+
+    @Column(name = "customer_phone")
     private String phone;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
+    @ManyToMany() //fetch = FetchType.EAGER
+    @JoinTable(
+            name = "cust_proj",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private List<Customer> customers;
+
+    public Customer() {
+    }
 
     public Customer(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
-
 
 
     public String getName() {
@@ -33,5 +57,9 @@ public class Customer {
                 "name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
     }
 }

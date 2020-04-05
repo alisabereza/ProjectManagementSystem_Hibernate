@@ -1,5 +1,6 @@
 package com.project.management.console;
 
+import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,6 +53,7 @@ public class Controller {
             }
             case "exit": {
                 view.write("Goodbye!");
+                HibernateDatabaseConnector.destroy();
                 System.exit(0);
                 break;
 
@@ -67,7 +69,7 @@ public class Controller {
     public void readCrudOption(String read) {
         switch (read) {
             case "create": {
-                view.write("What do you want to create: 'company', 'customer', 'developer'");
+                view.write("What do you want to create: 'company', 'customer', 'developer', 'project'");
 
                 String readCreate = view.read();
                 readCreateOption(readCreate);
@@ -84,7 +86,7 @@ public class Controller {
 
             }
             case "delete": {
-                view.write("What do you want to delete: 'company', 'customer', 'developer'");
+                view.write("What do you want to delete: 'company', 'customer', 'developer', 'project'");
 
                 String readDelete = view.read();
                 readDeleteOption(readDelete);
@@ -117,6 +119,12 @@ public class Controller {
             case "developer": {
                 DeveloperService service = new DeveloperService(view);
                 service.createDeveloper();
+                readOption();
+                break;
+            }
+            case "project": {
+                ProjectService service = new ProjectService(view);
+                service.createProject();
                 readOption();
                 break;
             }
@@ -169,6 +177,12 @@ public class Controller {
             case "developer": {
                 DeveloperService service = new DeveloperService(view);
                 service.deleteDeveloper();
+                readOption();
+                break;
+            }
+            case "project": {
+                ProjectService service = new ProjectService(view);
+                service.deleteProject();
                 readOption();
                 break;
             }

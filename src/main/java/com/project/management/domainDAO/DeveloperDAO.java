@@ -1,44 +1,34 @@
 package com.project.management.domainDAO;
 
-import com.project.management.database.DataBaseConnector;
+import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.domain.Developer;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.Serializable;
+
 
 public class DeveloperDAO extends DataAccessObject<Developer> {
     private final static Logger LOG = LogManager.getLogger(DeveloperDAO.class);
-    private HikariDataSource dataSource = DataBaseConnector.getConnector();
+    private SessionFactory sessionFactory;
 
-    private final static String INSERT = "INSERT INTO developers (developer_name, developer_age, developer_gender, salary) VALUES (?,?,?,?);";
-    private final static String DELETE_DEV_PROJ = "DELETE FROM dev_proj WHERE developer_id = (SELECT id FROM developers WHERE developer_name = ?);";
-    private final static String DELETE_DEV_SKILL = "DELETE FROM dev_skills WHERE developer_id = (SELECT id FROM developers WHERE developer_name = ?);";
-    private final static String DELETE = "DELETE FROM developers WHERE developer_name = ?;";
-    private final static String UPDATE = "UPDATE developers set salary=? where developer_name = ?;";
+    public DeveloperDAO() {
+        sessionFactory = HibernateDatabaseConnector.getSessionFactory();
+    }
 
 
     @Override
     public void create(Developer developer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            LOG.debug(String.format("Creating developer: developer.name=%s", developer.getName()));
-            statement.setString(1, developer.getName());
-            statement.setInt(2, developer.getAge());
-            statement.setString(3, developer.getGender());
-            statement.setInt(4, developer.getSalary());
-            statement.execute();
-            System.out.println("Developer " + developer.getName() + " created.");
-
-
-        } catch (SQLException e) {
-            LOG.error(String.format("Error creating developer: developer.name=%s", developer.getName()), e);
-            System.out.println(e.getMessage());
-        }
-
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Creating developer: %s", developer.getName()));
+        session.save(developer);
+        transaction.commit();
+        session.close();
     }
 
     @Override
@@ -48,54 +38,42 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
 
     @Override
     public void update(Developer developer) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
-            LOG.debug(String.format("Updating developer: developer.name=%s", developer.getName()));
-            statement.setString(2, developer.getName());
-            statement.setInt(1, developer.getSalary());
-            statement.execute();
-            System.out.println("Developer " + developer.getName() + " updated.");
-
-
-        } catch (SQLException e) {
-            LOG.error(String.format("Error updating developer: developer.name=%s", developer.getName()), e);
-            System.out.println(e.getMessage());
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Updating developer: developer.name=%s", developer.getName()));
+        session.update(developer);
+        transaction.commit();
+        session.close();
     }
 
     @Override
-    public void delete(String name) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_DEV_PROJ)) {
-            LOG.debug(String.format("Deleting developer-project dependency: developer.name=%s", name));
-            statement.setString(1, name);
-            statement.execute();
-            System.out.println("Developer-project dependencies deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting developer-project dependency: developer.name=%s", name), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_DEV_SKILL)) {
-            LOG.debug(String.format("Deleting developer-skill dependency: developer.name=%s", name));
-            statement.setString(1, name);
-            statement.execute();
-            System.out.println("Developer-skills dependencies deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting developer-skill: developer.name=%s", name), e);
-            System.out.println(e.getMessage());
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            LOG.debug(String.format("Deleting developer: developer.name=%s", name));
-            statement.setString(1, name);
-            statement.execute();
-            System.out.println("Developer deleted");
-        } catch (SQLException e) {
-            LOG.error(String.format("Error deleting developer: developer.name=%s", name), e);
-            System.out.println(e.getMessage());
+    public void delete(Developer developer) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Deleting developer: %s", developer.getName()));
+        Serializable id = developer.getId();
+        Object persistentInstance = session.load(Developer.class, id);
+        if (persistentInstance != null) {
+            session.delete(persistentInstance);
+            LOG.debug(String.format("Developer deleted: %s", developer.getName()));
+            transaction.commit();
+        } else {
+            LOG.error(String.format("Developer was not deleted: %s", developer.getName()));
         }
 
+
+        session.close();
     }
 
+    public Developer findByName(String name) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding Developer, name = %s", name));
+        NativeQuery query = session.createNativeQuery("select * from developers where developer_name= '" + name + "'");
+        query.addEntity(Developer.class);
+        Developer result = (Developer) query.getSingleResult();
+        transaction.commit();
+        session.close();
+        return result;
+    }
 }
