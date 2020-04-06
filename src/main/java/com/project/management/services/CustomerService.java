@@ -25,19 +25,23 @@ public class CustomerService {
     public void deleteCustomer() {
         view.write("Enter a customer phone");
         String phone = InputValueValidator.validateString(view);
-        Customer customer = customerDAO.findByPhone(phone);
-        customerDAO.delete(customer);
-
+        try {Customer customer = customerDAO.findByPhone(phone);
+            customerDAO.delete(customer);}
+        catch (NullPointerException e) {
+            view.write(e.getMessage());
+        }
     }
 
     public void updateCustomer() {
         view.write("Enter phone number");
         String phone = InputValueValidator.validateString(view);
-        Customer customer = customerDAO.findByPhone(phone);
-        System.out.println("Enter new phone number: ");
-        phone = InputValueValidator.validateString(view);
-        customer.setPhone(phone);
-        customerDAO.update(customer);
-
+        try {Customer customer = customerDAO.findByPhone(phone);
+            view.write("Enter new phone number: ");
+            phone = InputValueValidator.validateString(view);
+            customer.setPhone(phone);
+            customerDAO.update(customer);}
+        catch (NullPointerException e) {
+            view.write(e.getMessage());
+        }
     }
 }

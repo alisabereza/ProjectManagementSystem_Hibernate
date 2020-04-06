@@ -1,10 +1,13 @@
 package com.project.management.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Table(name = "customers")
 @Entity
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Customer {
 
     @Column(name = "customer_name")

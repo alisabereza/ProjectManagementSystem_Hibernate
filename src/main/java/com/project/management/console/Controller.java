@@ -5,8 +5,6 @@ import com.project.management.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
-
 public class Controller {
     private View view;
     private static final Logger LOG = LogManager.getLogger(Controller.class);
@@ -19,7 +17,6 @@ public class Controller {
     public void readOption() {
         view.write("Welcome to Project Management System!");
         view.write("For CRUD operations, type 'crud'");
-        view.write("To get REPORT, type 'report'");
         view.write("To Exit, type 'exit': ");
         while (true) {
             String read = view.read();
@@ -35,29 +32,12 @@ public class Controller {
                 String readCrud = view.read();
                 readCrudOption(readCrud);
                 break;
-
-
-            }
-            case "report": {
-                view.write("Make your selection: ");
-                view.write("Salary of all developers of certain project - 'salary_proj'");
-                view.write("All developers of certain project - 'dev_proj'");
-                view.write("List of all developers using certain language - 'dev_lang'");
-                view.write("List of all MIDDLE developers - 'middle_dev'");
-                view.write("List of all projects - 'all_proj'");
-
-                String readReport = view.read();
-                readReportOption(readReport);
-
-                break;
             }
             case "exit": {
                 view.write("Goodbye!");
                 HibernateDatabaseConnector.destroy();
                 System.exit(0);
                 break;
-
-
             }
             default: {
                 view.write("Enter the correct command");
@@ -91,7 +71,6 @@ public class Controller {
                 String readDelete = view.read();
                 readDeleteOption(readDelete);
                 break;
-
 
             }
             default: {
@@ -133,7 +112,6 @@ public class Controller {
                 readOption();
                 break;
             }
-
         }
     }
 
@@ -193,42 +171,4 @@ public class Controller {
             }
         }
     }
-
-    public void readReportOption(String readReport) {
-        switch (readReport) {
-            case "salary_proj": {
-                ReportService service = new ReportService(view);
-                service.salaryByProject();
-                readOption();
-                break;
-            }
-            case "dev_proj": {
-                ReportService service = new ReportService(view);
-                service.developersByProject();
-                readOption();
-            }
-            case "dev_lang": {
-                ReportService service = new ReportService(view);
-                service.developersByLanguage();
-                readOption();
-            }
-            case "middle_dev": {
-                ReportService service = new ReportService(view);
-                service.developersByLevel();
-                readOption();
-            }
-            case "all_proj": {
-                ReportService service = new ReportService(view);
-                service.allProjects();
-                readOption();
-            }
-            default: {
-                view.write("Enter the correct command");
-                readOption();
-                break;
-            }
-        }
-    }
-
-
 }

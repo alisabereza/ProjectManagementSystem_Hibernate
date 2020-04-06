@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
+import javax.persistence.NoResultException;
+
 public class CustomerDAO extends DataAccessObject<Customer> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
     private SessionFactory sessionFactory;
@@ -24,8 +26,12 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         LOG.debug(String.format("Finding customer, phone = %s", phone));
         NativeQuery query = session.createNativeQuery("select * from customers where customer_phone= '" + phone + "'");
         query.addEntity(Customer.class);
-        Customer result = (Customer) query.getSingleResult();
-        transaction.commit();
+        Customer result;
+        try { result = (Customer) query.getSingleResult();
+            transaction.commit();}
+        catch (NoResultException e) {
+            throw new NullPointerException("Customer with the phone number provided does not exist in database");
+        }
         session.close();
         return result;
     }
@@ -38,6 +44,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         LOG.debug(String.format("Creating customer: %s", customer.getName()));
         session.save(customer);
         transaction.commit();
+        LOG.debug(String.format("Customer created: %s", customer.getName()));
+        System.out.println(String.format("Customer created: %s", customer.getName()));
         session.close();
     }
 
@@ -53,6 +61,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         LOG.debug(String.format("Updating customer: customer.name=%s", customer.getName()));
         session.update(customer);
         transaction.commit();
+        LOG.debug(String.format("Customer update: %s", customer.getName()));
+        System.out.println(String.format("Customer updated: %s", customer.getName()));
         session.close();
     }
 
@@ -63,6 +73,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         LOG.debug(String.format("Deleting customer = %s", customer.getName()));
         session.delete(customer);
         transaction.commit();
+        LOG.debug(String.format("Customer deleted: %s", customer.getName()));
+        System.out.println(String.format("Customer deleted: %s", customer.getName()));
         session.close();
     }
 }

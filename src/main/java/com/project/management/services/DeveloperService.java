@@ -36,8 +36,8 @@ public class DeveloperService {
     public void updateDeveloper() {
         view.write("Enter a Developer name");
         String name = InputValueValidator.validateString(view);
-        Developer developer = developerDAO.findByName(name);
-        if (developer != null) {
+        try {
+            Developer developer = developerDAO.findByName(name);
             view.write("Select what to update: 'salary' or 'company': ");
             String answer = view.read();
             switch (answer) {
@@ -62,20 +62,20 @@ public class DeveloperService {
                     view.write("Incorrect command");
             }
             developerDAO.update(developer);
-        } else {
-            view.write("Developer not found");
+        }
+        catch (NullPointerException e) {
+            view.write(e.getMessage());
         }
     }
 
     public void deleteDeveloper() {
         view.write("Enter a Developer name");
         String name = InputValueValidator.validateString(view);
-        Developer developer = developerDAO.findByName(name);
-        if (developer != null) {
-            System.out.println(developer);
-            developerDAO.delete(developer);
-        } else {
-            System.out.println("Developer not found");
+        try {Developer developer = developerDAO.findByName(name);
+        developerDAO.delete(developer);}
+        catch (NullPointerException e) {
+            view.write(e.getMessage());
         }
+
     }
 }

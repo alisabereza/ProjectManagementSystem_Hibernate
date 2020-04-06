@@ -26,17 +26,21 @@ public class ProjectService {
         int cost = InputValueValidator.validateInt(view);
         view.write("Enter Company name");
         String companyName = InputValueValidator.validateString(view);
-        Company company = new CompanyDAO().findByName(companyName);
-        System.out.println("Company: " + company);
+        Company company= null;
+        try {company = new CompanyDAO().findByName(companyName);}
+        catch (NullPointerException e) {
+            view.write(e.getMessage());
+        }
         Project project = new Project(name, startDate, cost, company);
-        System.out.println("Project: " + project);
         projectDAO.create(project);
     }
 
     public void deleteProject() {
         view.write("Enter a Project name");
         String name = InputValueValidator.validateString(view);
-        Project project = projectDAO.findByName(name);
-        projectDAO.delete(project);
+        try {Project project = projectDAO.findByName(name);
+        projectDAO.delete(project);}
+        catch (NullPointerException e) {
+            view.write(e.getMessage());
     }
-}
+}}

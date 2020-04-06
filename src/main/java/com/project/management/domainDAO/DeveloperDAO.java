@@ -9,8 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
-import java.io.Serializable;
-
+import javax.persistence.NoResultException;
 
 public class DeveloperDAO extends DataAccessObject<Developer> {
     private final static Logger LOG = LogManager.getLogger(DeveloperDAO.class);
@@ -28,6 +27,8 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         LOG.debug(String.format("Creating developer: %s", developer.getName()));
         session.save(developer);
         transaction.commit();
+        LOG.debug(String.format("Developer created: %s", developer.getName()));
+        System.out.println(String.format("Developer created: %s", developer.getName()));
         session.close();
     }
 
@@ -43,6 +44,8 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         LOG.debug(String.format("Updating developer: developer.name=%s", developer.getName()));
         session.update(developer);
         transaction.commit();
+        LOG.debug(String.format("Developer updated: %s", developer.getName()));
+        System.out.println(String.format("Developer updated: %s", developer.getName()));
         session.close();
     }
 
@@ -51,17 +54,10 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         LOG.debug(String.format("Deleting developer: %s", developer.getName()));
-        Serializable id = developer.getId();
-        Object persistentInstance = session.load(Developer.class, id);
-        if (persistentInstance != null) {
-            session.delete(persistentInstance);
-            LOG.debug(String.format("Developer deleted: %s", developer.getName()));
+            session.delete(developer);
             transaction.commit();
-        } else {
-            LOG.error(String.format("Developer was not deleted: %s", developer.getName()));
-        }
-
-
+        LOG.debug(String.format("Developer deleted: %s", developer.getName()));
+        System.out.println(String.format("Developer deleted: %s", developer.getName()));
         session.close();
     }
 
@@ -71,7 +67,11 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         LOG.debug(String.format("Finding Developer, name = %s", name));
         NativeQuery query = session.createNativeQuery("select * from developers where developer_name= '" + name + "'");
         query.addEntity(Developer.class);
-        Developer result = (Developer) query.getSingleResult();
+        Developer result;
+    try { result = (Developer) query.getSingleResult();}
+                catch (NoResultException e) {
+            throw new NullPointerException("Developer with the name provided does not exist in database");
+        }
         transaction.commit();
         session.close();
         return result;

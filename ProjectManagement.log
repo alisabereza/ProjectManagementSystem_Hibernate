@@ -12,3 +12,414 @@ where level.level = ?
 2020-03-10 11:15:51 DEBUG DevelopersByProjectDAO:24 - Generating report: report.name=select developer_name from developers d join dev_proj dp on d.id = dp.developer_id where dp.project_id in (select id from projects where project_name = ?);
 2020-03-10 11:18:40 DEBUG CompanyDAO:33 - Creating company: company.title=ABC
 2020-03-10 11:26:10 DEBUG CompanyDAO:33 - Creating company: company.title=asd
+2020-04-04 11:14:16 ERROR HibernateDatabaseConnector:23 - init hibernate
+org.hibernate.MappingException: Unable to instantiate custom type: org.hibernate.type.EnumType
+	at org.hibernate.type.TypeFactory.custom(TypeFactory.java:169) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.TypeFactory.byClass(TypeFactory.java:74) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.TypeResolver.heuristicType(TypeResolver.java:126) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.SimpleValue.getType(SimpleValue.java:473) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.SimpleValue.isValid(SimpleValue.java:455) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.Property.isValid(Property.java:227) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.PersistentClass.validate(PersistentClass.java:624) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.RootClass.validate(RootClass.java:267) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataImpl.validate(MetadataImpl.java:343) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:461) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:21) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:38) [main/:?]
+Caused by: org.hibernate.HibernateException: Enum class not found: com.courses.management.course.CourseStatus
+	at org.hibernate.type.EnumType.setParameterValues(EnumType.java:120) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.TypeFactory.injectParameters(TypeFactory.java:109) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.TypeFactory.custom(TypeFactory.java:165) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 11 more
+Caused by: java.lang.ClassNotFoundException: com.courses.management.course.CourseStatus
+	at jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:583) ~[?:?]
+	at jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178) ~[?:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:521) ~[?:?]
+	at java.lang.Class.forName0(Native Method) ~[?:?]
+	at java.lang.Class.forName(Class.java:415) ~[?:?]
+	at org.hibernate.internal.util.ReflectHelper.classForName(ReflectHelper.java:160) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.EnumType.setParameterValues(EnumType.java:117) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.TypeFactory.injectParameters(TypeFactory.java:109) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.type.TypeFactory.custom(TypeFactory.java:165) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 11 more
+2020-04-04 11:37:47 ERROR HibernateDatabaseConnector:28 - init hibernate
+org.hibernate.AnnotationException: No identifier specified for entity: com.project.management.domain.Company
+	at org.hibernate.cfg.InheritanceState.determineDefaultAccessType(InheritanceState.java:266) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.InheritanceState.getElementsToProcess(InheritanceState.java:211) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.AnnotationBinder.bindClass(AnnotationBinder.java:781) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.source.internal.annotations.AnnotationMetadataSourceProcessorImpl.processEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:254) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:230) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:273) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:473) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:84) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:25) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:52) [main/:?]
+2020-04-04 11:38:39 ERROR HibernateDatabaseConnector:28 - init hibernate
+org.hibernate.AnnotationException: No identifier specified for entity: com.project.management.domain.Company
+	at org.hibernate.cfg.InheritanceState.determineDefaultAccessType(InheritanceState.java:266) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.InheritanceState.getElementsToProcess(InheritanceState.java:211) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.AnnotationBinder.bindClass(AnnotationBinder.java:781) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.source.internal.annotations.AnnotationMetadataSourceProcessorImpl.processEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:254) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:230) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:273) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:473) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:84) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:25) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:52) [main/:?]
+2020-04-04 11:39:30 ERROR HibernateDatabaseConnector:28 - init hibernate
+org.hibernate.AnnotationException: No identifier specified for entity: com.project.management.domain.Company
+	at org.hibernate.cfg.InheritanceState.determineDefaultAccessType(InheritanceState.java:266) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.InheritanceState.getElementsToProcess(InheritanceState.java:211) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.AnnotationBinder.bindClass(AnnotationBinder.java:781) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.source.internal.annotations.AnnotationMetadataSourceProcessorImpl.processEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:254) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:230) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:273) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:473) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:84) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:25) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:52) [main/:?]
+2020-04-04 11:41:15 ERROR HibernateDatabaseConnector:28 - init hibernate
+org.hibernate.AnnotationException: No identifier specified for entity: com.project.management.domain.Company
+	at org.hibernate.cfg.InheritanceState.determineDefaultAccessType(InheritanceState.java:266) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.InheritanceState.getElementsToProcess(InheritanceState.java:211) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.AnnotationBinder.bindClass(AnnotationBinder.java:781) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.source.internal.annotations.AnnotationMetadataSourceProcessorImpl.processEntityHierarchies(AnnotationMetadataSourceProcessorImpl.java:254) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess$1.processEntityHierarchies(MetadataBuildingProcess.java:230) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:273) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:473) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:84) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:25) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:54) [main/:?]
+2020-04-04 13:26:31 ERROR HibernateDatabaseConnector:32 - init hibernate
+org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:123) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:77) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.metamodel.internal.MetamodelImpl.initialize(MetamodelImpl.java:181) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:305) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:30) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:86) [main/:?]
+Caused by: org.hibernate.HibernateException: Unable to instantiate default tuplizer [org.hibernate.tuple.entity.PojoEntityTuplizer]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructTuplizer(EntityTuplizerFactory.java:91) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructDefaultTuplizer(EntityTuplizerFactory.java:116) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityMetamodel.<init>(EntityMetamodel.java:413) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.<init>(AbstractEntityPersister.java:589) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.SingleTableEntityPersister.<init>(SingleTableEntityPersister.java:125) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:96) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 6 more
+Caused by: java.lang.reflect.InvocationTargetException
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructTuplizer(EntityTuplizerFactory.java:88) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructDefaultTuplizer(EntityTuplizerFactory.java:116) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityMetamodel.<init>(EntityMetamodel.java:413) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.<init>(AbstractEntityPersister.java:589) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.SingleTableEntityPersister.<init>(SingleTableEntityPersister.java:125) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:96) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 6 more
+Caused by: org.hibernate.PropertyNotFoundException: Could not locate setter method for property [com.project.management.domain.Company#start_date]
+	at org.hibernate.internal.util.ReflectHelper.findSetterMethod(ReflectHelper.java:607) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.property.access.internal.PropertyAccessBasicImpl.<init>(PropertyAccessBasicImpl.java:44) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.property.access.internal.PropertyAccessStrategyBasicImpl.buildPropertyAccess(PropertyAccessStrategyBasicImpl.java:27) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.Property.getGetter(Property.java:311) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.PojoEntityTuplizer.buildPropertyGetter(PojoEntityTuplizer.java:255) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.AbstractEntityTuplizer.<init>(AbstractEntityTuplizer.java:142) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.PojoEntityTuplizer.<init>(PojoEntityTuplizer.java:59) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructTuplizer(EntityTuplizerFactory.java:88) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructDefaultTuplizer(EntityTuplizerFactory.java:116) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityMetamodel.<init>(EntityMetamodel.java:413) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.<init>(AbstractEntityPersister.java:589) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.SingleTableEntityPersister.<init>(SingleTableEntityPersister.java:125) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:96) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 6 more
+2020-04-04 13:29:25 ERROR HibernateDatabaseConnector:32 - init hibernate
+org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:123) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:77) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.metamodel.internal.MetamodelImpl.initialize(MetamodelImpl.java:181) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:305) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.init(HibernateDatabaseConnector.java:30) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.main(HibernateDatabaseConnector.java:86) [main/:?]
+Caused by: org.hibernate.HibernateException: Unable to instantiate default tuplizer [org.hibernate.tuple.entity.PojoEntityTuplizer]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructTuplizer(EntityTuplizerFactory.java:91) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructDefaultTuplizer(EntityTuplizerFactory.java:116) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityMetamodel.<init>(EntityMetamodel.java:413) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.<init>(AbstractEntityPersister.java:589) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.SingleTableEntityPersister.<init>(SingleTableEntityPersister.java:125) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:96) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 6 more
+Caused by: java.lang.reflect.InvocationTargetException
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructTuplizer(EntityTuplizerFactory.java:88) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructDefaultTuplizer(EntityTuplizerFactory.java:116) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityMetamodel.<init>(EntityMetamodel.java:413) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.<init>(AbstractEntityPersister.java:589) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.SingleTableEntityPersister.<init>(SingleTableEntityPersister.java:125) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:96) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 6 more
+Caused by: org.hibernate.PropertyNotFoundException: Could not locate setter method for property [com.project.management.domain.Company#start_date]
+	at org.hibernate.internal.util.ReflectHelper.findSetterMethod(ReflectHelper.java:607) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.property.access.internal.PropertyAccessBasicImpl.<init>(PropertyAccessBasicImpl.java:44) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.property.access.internal.PropertyAccessStrategyBasicImpl.buildPropertyAccess(PropertyAccessStrategyBasicImpl.java:27) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.mapping.Property.getGetter(Property.java:311) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.PojoEntityTuplizer.buildPropertyGetter(PojoEntityTuplizer.java:255) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.AbstractEntityTuplizer.<init>(AbstractEntityTuplizer.java:142) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.PojoEntityTuplizer.<init>(PojoEntityTuplizer.java:59) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructTuplizer(EntityTuplizerFactory.java:88) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityTuplizerFactory.constructDefaultTuplizer(EntityTuplizerFactory.java:116) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.tuple.entity.EntityMetamodel.<init>(EntityMetamodel.java:413) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.<init>(AbstractEntityPersister.java:589) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.persister.entity.SingleTableEntityPersister.<init>(SingleTableEntityPersister.java:125) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:96) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	... 6 more
+2020-04-04 21:51:04 DEBUG CustomerDAO:48 - Creating customer: Alliance Company
+2020-04-04 21:52:00 DEBUG CustomerDAO:34 - Finding customer, phone = 0936665544
+2020-04-04 21:52:00 DEBUG CustomerDAO:73 - Deleting customer-projects dependency: customer.name=Alliance Company
+2020-04-04 21:53:52 DEBUG CustomerDAO:34 - Finding customer, phone = 0936665544
+2020-04-04 21:53:52 DEBUG CustomerDAO:73 - Deleting customer-projects dependency: customer.name=Alliance Company
+2020-04-04 21:53:52 DEBUG CustomerDAO:76 - Deleting customer = Alliance Company
+2020-04-04 21:54:51 DEBUG CustomerDAO:34 - Finding customer, phone = 044-2176020
+2020-04-04 21:55:01 DEBUG CustomerDAO:63 - Updating customer: customer.name=Pyrizhky
+2020-04-05 11:19:03 DEBUG CustomerDAO:46 - Creating customer: Sonya
+2020-04-05 11:43:40 DEBUG CustomerDAO:24 - Creating project: Project2020
+2020-04-05 11:51:50 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 11:51:50 DEBUG CustomerDAO:24 - Creating project: Project2020
+2020-04-05 12:00:38 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 12:00:38 DEBUG CustomerDAO:24 - Creating project: Project2020
+2020-04-05 12:11:09 ERROR HibernateDatabaseConnector:32 - init hibernate
+org.hibernate.AnnotationException: Use of @OneToMany or @ManyToMany targeting an unmapped class: com.project.management.domain.Company.projects[com.project.management.domain.Project]
+	at org.hibernate.cfg.annotations.CollectionBinder.bindManyToManySecondPass(CollectionBinder.java:1332) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.annotations.CollectionBinder.bindStarToManySecondPass(CollectionBinder.java:870) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.annotations.CollectionBinder$1.secondPass(CollectionBinder.java:795) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.cfg.CollectionSecondPass.doSecondPass(CollectionSecondPass.java:53) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1684) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1652) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:286) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:473) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:84) ~[hibernate-core-5.4.10.Final.jar:5.4.10.Final]
+	at com.project.management.database.HibernateDatabaseConnector.<init>(HibernateDatabaseConnector.java:29) [main/:?]
+	at com.project.management.database.HibernateDatabaseConnector.<clinit>(HibernateDatabaseConnector.java:24) [main/:?]
+	at com.project.management.domainDAO.ProjectDAO.<init>(ProjectDAO.java:16) [main/:?]
+	at com.project.management.services.ProjectService.<init>(ProjectService.java:17) [main/:?]
+	at com.project.management.console.Controller.readCreateOption(Controller.java:123) [main/:?]
+	at com.project.management.console.Controller.readCrudOption(Controller.java:73) [main/:?]
+	at com.project.management.console.Controller.readSubOption(Controller.java:35) [main/:?]
+	at com.project.management.console.Controller.readOption(Controller.java:25) [main/:?]
+	at com.project.management.Main.main(Main.java:12) [main/:?]
+2020-04-05 12:14:35 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 12:14:35 DEBUG CustomerDAO:24 - Creating project: Project_X
+2020-04-05 12:15:58 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 12:15:58 DEBUG CustomerDAO:24 - Creating project: Project_X
+2020-04-05 12:33:49 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 12:33:49 DEBUG CustomerDAO:24 - Creating project: Project2020
+2020-04-05 12:43:22 DEBUG CustomerDAO:54 - Finding Project, name = Project2020
+2020-04-05 12:47:31 DEBUG CustomerDAO:54 - Finding Project, name = Project2020
+2020-04-05 12:47:32 DEBUG CustomerDAO:46 - Deleting project: Project2020
+2020-04-05 13:56:06 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 13:56:06 DEBUG DeveloperDAO:35 - Creating developer: Serezhka Kartoshka
+2020-04-05 13:56:59 DEBUG DeveloperDAO:74 - Finding Developer, name = Serezhka Kartoshka
+2020-04-05 13:57:09 DEBUG DeveloperDAO:50 - Updating developer: developer.name=Serezhka Kartoshka
+2020-04-05 13:57:48 DEBUG DeveloperDAO:74 - Finding Developer, name = fra
+2020-04-05 14:00:04 DEBUG DeveloperDAO:74 - Finding Developer, name = fra
+2020-04-05 14:02:18 DEBUG DeveloperDAO:74 - Finding Developer, name = fra
+2020-04-05 14:02:18 DEBUG DeveloperDAO:60 - Deleting developer: fra
+2020-04-05 14:07:11 DEBUG DeveloperDAO:74 - Finding Developer, name = fra
+2020-04-05 14:09:49 DEBUG DeveloperDAO:74 - Finding Developer, name = fra
+2020-04-05 14:09:49 DEBUG DeveloperDAO:60 - Deleting developer: fra
+2020-04-05 14:45:19 DEBUG DeveloperDAO:74 - Finding Developer, name = fra
+2020-04-05 14:45:20 DEBUG DeveloperDAO:60 - Deleting developer: fra
+2020-04-05 14:48:26 DEBUG DeveloperDAO:76 - Finding Developer, name = fra
+2020-04-05 14:50:34 DEBUG DeveloperDAO:77 - Finding Developer, name = fra
+2020-04-05 14:52:25 DEBUG DeveloperDAO:79 - Finding Developer, name = fra
+2020-04-05 14:54:14 DEBUG DeveloperDAO:80 - Finding Developer, name = fra
+2020-04-05 14:56:09 DEBUG DeveloperDAO:80 - Finding Developer, name = Ivan Bereza
+2020-04-05 15:00:09 DEBUG DeveloperDAO:87 - Finding Developer, name = fra
+2020-04-05 15:00:09 ERROR DeveloperDAO:78 - Error executing query: java.util.NoSuchElementException
+2020-04-05 15:02:15 DEBUG DeveloperDAO:84 - Finding Developer, name = Ivan Bereza
+2020-04-05 15:02:16 DEBUG DeveloperDAO:63 - Deleting developer: Ivan Bereza
+2020-04-05 15:02:16 ERROR DeveloperDAO:75 - Error executing query: java.util.NoSuchElementException
+2020-04-05 15:03:33 DEBUG DeveloperDAO:84 - Finding Developer, name = fra
+2020-04-05 15:03:33 DEBUG DeveloperDAO:63 - Deleting developer: fra
+2020-04-05 15:03:33 ERROR DeveloperDAO:75 - Error executing query: java.util.NoSuchElementException
+2020-04-05 15:04:58 DEBUG CompanyDAO:79 - Finding company, name = IBM2
+2020-04-05 15:04:58 DEBUG CompanyDAO:54 - Finding company to delete: IBM2
+2020-04-05 15:04:58 DEBUG CompanyDAO:58 - Deleting company: IBM2
+2020-04-05 15:04:58 DEBUG CompanyDAO:70 - Company deleted: IBM2
+2020-04-05 15:05:36 DEBUG DeveloperDAO:84 - Finding Developer, name = fra
+2020-04-05 15:05:45 DEBUG CompanyDAO:79 - Finding company, name = IBM
+2020-04-05 15:05:45 DEBUG DeveloperDAO:51 - Updating developer: developer.name=fra
+2020-04-05 15:11:50 DEBUG DeveloperDAO:84 - Finding Developer, name = fra
+2020-04-05 15:15:25 DEBUG DeveloperDAO:84 - Finding Developer, name = fra
+2020-04-05 15:15:25 DEBUG DeveloperDAO:63 - Deleting developer: fra
+2020-04-05 15:15:25 ERROR DeveloperDAO:75 - Error executing query: java.util.NoSuchElementException
+2020-04-05 15:16:53 DEBUG DeveloperDAO:85 - Finding Developer, name = fra
+2020-04-05 15:16:53 DEBUG DeveloperDAO:63 - Deleting developer: fra
+2020-04-05 15:16:53 ERROR DeveloperDAO:76 - Error executing query: java.util.NoSuchElementException
+2020-04-05 15:21:52 DEBUG DeveloperDAO:87 - Finding Developer, name = fra
+2020-04-05 15:21:52 DEBUG DeveloperDAO:63 - Deleting developer: fra
+2020-04-05 15:21:52 ERROR DeveloperDAO:78 - Error executing query: java.util.NoSuchElementException
+2020-04-05 15:28:55 DEBUG DeveloperDAO:87 - Finding Developer, name = fra
+2020-04-05 15:29:27 DEBUG DeveloperDAO:63 - Deleting developer: fra
+2020-04-05 15:34:54 DEBUG DeveloperDAO:87 - Finding Developer, name = fra
+2020-04-05 15:34:54 DEBUG DeveloperDAO:63 - Deleting developer: fra
+2020-04-05 15:34:54 DEBUG DeveloperDAO:74 - Developer deleted: fra
+2020-04-05 15:35:40 DEBUG DeveloperDAO:87 - Finding Developer, name = Max Belyi
+2020-04-05 15:35:40 DEBUG DeveloperDAO:63 - Deleting developer: Max Belyi
+2020-04-05 15:35:40 DEBUG DeveloperDAO:74 - Developer deleted: Max Belyi
+2020-04-05 15:44:59 DEBUG DeveloperDAO:71 - Finding Developer, name = Igor Vedmid
+2020-04-05 15:44:59 DEBUG DeveloperDAO:55 - Deleting developer: Igor Vedmid
+2020-04-05 15:44:59 DEBUG DeveloperDAO:62 - Developer deleted: Igor Vedmid
+2020-04-05 15:50:16 DEBUG DeveloperDAO:79 - Finding Developer, name = Igor Vedmid
+2020-04-05 15:50:16 DEBUG DeveloperDAO:57 - Deleting developer: Igor Vedmid
+2020-04-05 15:50:16 DEBUG DeveloperDAO:70 - Developer deleted: Igor Vedmid
+2020-04-05 16:07:11 DEBUG DeveloperDAO:79 - Finding Developer, name = Igor Vedmid
+2020-04-05 16:07:11 DEBUG DeveloperDAO:57 - Deleting developer: Igor Vedmid
+2020-04-05 16:07:12 DEBUG DeveloperDAO:70 - Developer deleted: Igor Vedmid
+2020-04-05 16:11:08 DEBUG DeveloperDAO:79 - Finding Developer, name = Igor Vedmid
+2020-04-05 16:11:08 DEBUG DeveloperDAO:57 - Deleting developer: Igor Vedmid
+2020-04-05 16:11:08 DEBUG DeveloperDAO:70 - Developer deleted: Igor Vedmid
+2020-04-05 16:21:29 DEBUG DeveloperDAO:79 - Finding Developer, name = Igor Vedmid
+2020-04-05 16:21:29 DEBUG DeveloperDAO:57 - Deleting developer: Igor Vedmid
+2020-04-05 16:21:29 DEBUG DeveloperDAO:70 - Developer deleted: Igor Vedmid
+2020-04-05 16:24:34 DEBUG DeveloperDAO:79 - Finding Developer, name = Igor Vedmid
+2020-04-05 16:24:34 DEBUG DeveloperDAO:57 - Deleting developer: Igor Vedmid
+2020-04-05 16:24:34 DEBUG DeveloperDAO:70 - Developer deleted: Igor Vedmid
+2020-04-05 19:15:52 DEBUG CustomerDAO:53 - Finding Project, name = Smart Country
+2020-04-05 19:15:52 DEBUG CustomerDAO:45 - Deleting project: Smart Country
+2020-04-05 19:18:21 DEBUG CustomerDAO:53 - Finding Project, name = Smart Country
+2020-04-05 19:18:21 DEBUG CustomerDAO:45 - Deleting project: Smart Country
+2020-04-05 19:22:31 DEBUG CompanyDAO:75 - Finding company, name = Space Visualization
+2020-04-05 19:23:59 DEBUG CompanyDAO:75 - Finding company, name = Future
+2020-04-05 19:23:59 DEBUG CompanyDAO:54 - Deleting company: Future
+2020-04-05 19:23:59 DEBUG CompanyDAO:66 - Company deleted: Future
+2020-04-05 19:31:44 DEBUG CompanyDAO:75 - Finding company, name = Future
+2020-04-05 19:31:44 DEBUG CompanyDAO:54 - Deleting company: Future
+2020-04-05 19:31:44 DEBUG CompanyDAO:66 - Company deleted: Future
+2020-04-05 19:39:00 DEBUG CustomerDAO:27 - Finding customer, phone = 044-459-12-32
+2020-04-05 19:39:00 DEBUG CustomerDAO:66 - Deleting customer = Univermag Ukraina
+2020-04-05 22:04:07 DEBUG DevelopersByLanguageDAO:39 - Generating report: report.name=select distinct developer_name, d.developer_age, d.developer_gender, d.salary
+from developers d
+         join dev_skills ds on d.id = ds.developer_id
+where ds.skill_id in (select id from skills where upper(language) = upper(
+2020-04-05 22:07:16 DEBUG DevelopersByLanguageDAO:39 - Generating report: report.name=select distinct developer_name, d.developer_age, d.developer_gender, d.salary
+from developers d
+         join dev_skills ds on d.id = ds.developer_id
+where ds.skill_id in (select id from skills where upper(language) = upper(''
+2020-04-05 22:09:46 DEBUG DevelopersByLanguageDAO:39 - Generating report: report.name=select distinct d.id,  d.developer_name, d.developer_age, d.developer_gender, d.company_id, d.salary
+from developers d
+         join dev_skills ds on d.id = ds.developer_id
+where ds.skill_id in (select id from skills where upper(language) = upper('
+2020-04-05 22:19:33 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-05 22:20:49 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-05 22:21:53 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-05 22:23:00 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-05 22:25:10 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-05 22:28:10 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-05 22:28:27 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-06 12:23:05 DEBUG ReportDAO:48 - Generating report: report.name=select level.developer_name from (select distinct devskill.developer_name, max(devskill.level) as level from (select d.id, d.developer_name, s.language, s.level, s.id from developers d
+    join dev_skills ds on d.id = ds.developer_id
+    join skills s on ds.skill_id = s.id) devskill
+group by devskill.developer_name) level
+where level.level = '
+2020-04-06 12:32:44 DEBUG CompanyDAO:26 - Creating company: BBC
+2020-04-06 12:42:55 DEBUG CompanyDAO:26 - Creating company: MMM
+2020-04-06 12:43:26 DEBUG CustomerDAO:24 - Finding customer, phone = 0333333
+2020-04-06 12:51:27 DEBUG CustomerDAO:26 - Finding customer, phone = 12313
+2020-04-06 12:51:49 DEBUG CustomerDAO:26 - Finding customer, phone = 12312
+2020-04-06 12:52:05 DEBUG CompanyDAO:60 - Finding company, name = 12
+2020-04-06 15:18:21 DEBUG CompanyDAO:62 - Finding company, name = Dummy
+2020-04-06 15:18:21 DEBUG CustomerDAO:26 - Creating project: R-String
+2020-04-06 15:18:21 DEBUG CustomerDAO:29 - Project created: R-String
+2020-04-06 15:19:31 DEBUG DeveloperDAO:67 - Finding Developer, name = Ivan Bereza
+2020-04-06 15:19:46 DEBUG DeveloperDAO:44 - Updating developer: developer.name=Ivan Bereza
+2020-04-06 15:19:46 DEBUG DeveloperDAO:47 - Developer updated: Ivan Bereza
+2020-04-06 15:20:10 DEBUG DeveloperDAO:67 - Finding Developer, name = 123
+2020-04-06 15:21:12 DEBUG DeveloperDAO:67 - Finding Developer, name = Maxim Pyatyhatka
+2020-04-06 15:21:12 DEBUG DeveloperDAO:56 - Deleting developer: Maxim Pyatyhatka
+2020-04-06 15:21:12 DEBUG DeveloperDAO:59 - Developer deleted: Maxim Pyatyhatka
+2020-04-06 15:21:58 DEBUG CompanyDAO:62 - Finding company, name = EMAM
+2020-04-06 15:21:58 DEBUG CompanyDAO:50 - Deleting company: EMAM
+2020-04-06 15:25:53 DEBUG CompanyDAO:62 - Finding company, name = EMAM
+2020-04-06 15:25:53 DEBUG CompanyDAO:50 - Deleting company: EMAM
+2020-04-06 15:25:53 DEBUG CompanyDAO:52 - Company deleted: EMAM

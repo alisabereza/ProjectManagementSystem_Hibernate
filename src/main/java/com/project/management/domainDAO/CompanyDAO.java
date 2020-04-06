@@ -10,6 +10,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
+import javax.persistence.NoResultException;
+
 
 public class CompanyDAO extends DataAccessObject<Company> {
     private final static Logger LOG = LogManager.getLogger(CompanyDAO.class);
@@ -27,6 +29,8 @@ public class CompanyDAO extends DataAccessObject<Company> {
         session.save(company);
         transaction.commit();
         session.close();
+        LOG.debug(String.format("Company created: %s", company.getName()));
+        System.out.println(String.format("Company created: %s", company.getName()));
     }
 
     @Override
@@ -46,6 +50,7 @@ public class CompanyDAO extends DataAccessObject<Company> {
         LOG.debug(String.format("Deleting company: %s", company.getName()));
         session.delete(company);
         LOG.debug(String.format("Company deleted: %s", company.getName()));
+        System.out.println(String.format("Company deleted: %s", company.getName()));
         transaction.commit();
         session.close();
     }
@@ -57,8 +62,13 @@ public class CompanyDAO extends DataAccessObject<Company> {
         LOG.debug(String.format("Finding company, name = %s", name));
         NativeQuery query = session.createNativeQuery("select * from companies where company_name= '" + name + "'");
         query.addEntity(Company.class);
-        Company result = (Company) query.getSingleResult();
-        transaction.commit();
+        Company result;
+        try {
+        result = (Company) query.getSingleResult();
+        transaction.commit();}
+        catch (NoResultException e) {
+            throw new NullPointerException("Company with the name provided does not exist in database");
+        }
         session.close();
         return result;
     }

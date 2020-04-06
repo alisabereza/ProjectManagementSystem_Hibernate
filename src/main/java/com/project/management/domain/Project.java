@@ -1,11 +1,14 @@
 package com.project.management.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Table(name = "projects")
 @Entity
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

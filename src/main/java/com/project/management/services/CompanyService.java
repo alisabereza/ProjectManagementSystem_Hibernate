@@ -21,14 +21,16 @@ public class CompanyService {
         view.write("Enter Start Date in format YYYY-MM-DD");
         LocalDate startDate = InputValueValidator.validateDate(view);
         Company Company = new Company(name, startDate);
-
-            companyDAO.create(Company);
+        companyDAO.create(Company);
     }
 
     public void deleteCompany() {
         view.write("Enter a Company name");
         String name = InputValueValidator.validateString(view);
-        Company company = companyDAO.findByName(name);
-        companyDAO.delete(company);
+        try {Company company = companyDAO.findByName(name);
+        companyDAO.delete(company);}
+        catch (NullPointerException e) {
+            view.write("Company with this name was not found in database");
+        }
     }
 }

@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
+import javax.persistence.NoResultException;
+
 public class ProjectDAO extends DataAccessObject<Project> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
     private SessionFactory sessionFactory;
@@ -24,6 +26,8 @@ public class ProjectDAO extends DataAccessObject<Project> {
         LOG.debug(String.format("Creating project: %s", project.getName()));
         session.save(project);
         transaction.commit();
+        LOG.debug(String.format("Project created: %s", project.getName()));
+        System.out.println(String.format("Project created: %s", project.getName()));
         session.close();
     }
 
@@ -44,6 +48,8 @@ public class ProjectDAO extends DataAccessObject<Project> {
         LOG.debug(String.format("Deleting project: %s", project.getName()));
         session.delete(project);
         transaction.commit();
+        LOG.debug(String.format("Project deleted: %s", project.getName()));
+        System.out.println(String.format("Project deleted: %s", project.getName()));
         session.close();
     }
 
@@ -53,8 +59,12 @@ public class ProjectDAO extends DataAccessObject<Project> {
         LOG.debug(String.format("Finding Project, name = %s", name));
         NativeQuery query = session.createNativeQuery("select * from projects where project_name= '" + name + "'");
         query.addEntity(Project.class);
-        Project result = (Project) query.getSingleResult();
-        transaction.commit();
+        Project result;
+        try {result = (Project) query.getSingleResult();
+        transaction.commit();}
+        catch (NoResultException e) {
+            throw new NullPointerException("Project with the phone number provided does not exist in database");
+        }
         session.close();
         return result;
     }

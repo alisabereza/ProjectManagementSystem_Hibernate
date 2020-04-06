@@ -39,7 +39,7 @@ create table projects
     project_name VARCHAR(30) NOT NULL,
     start_date date NOT NULL,
     end_date date,
-    cost int,
+    cost int NOT NULL,
     company_id INT,
     PRIMARY KEY (id),
     FOREIGN KEY (company_id)  REFERENCES companies (id)

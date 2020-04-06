@@ -1,5 +1,7 @@
 package com.project.management.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Objects;
 
 @Table(name = "companies")
 @Entity
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Company {
     @Column(name = "company_name")
     private String name;
