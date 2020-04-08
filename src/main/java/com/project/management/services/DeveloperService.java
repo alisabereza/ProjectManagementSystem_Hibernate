@@ -2,6 +2,7 @@ package com.project.management.services;
 
 import com.project.management.console.View;
 import com.project.management.domain.Company;
+import com.project.management.domain.Customer;
 import com.project.management.domain.Developer;
 import com.project.management.domainDAO.CompanyDAO;
 import com.project.management.domainDAO.DeveloperDAO;
@@ -31,6 +32,14 @@ public class DeveloperService {
         Company company = new CompanyDAO().findByName(companyName);
         Developer developer = new Developer(name, age, DeveloperGender.valueOf(gender), salary, company);
         developerDAO.create(developer);
+    }
+
+    public void readDeveloper() {
+        view.write("Enter id");
+        int id = InputValueValidator.validateInt(view);
+        Developer developer  = developerDAO.read(id);
+        if (developer==null) {view.write("Developer not found");}
+        else {view.write("Developer found:" + developer.toString());}
     }
 
     public void updateDeveloper() {

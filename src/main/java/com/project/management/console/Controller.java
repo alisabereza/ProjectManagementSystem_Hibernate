@@ -27,7 +27,7 @@ public class Controller {
     public void readSubOption(String read) {
         switch (read) {
             case "crud": {
-                view.write("Make your selection: 'create', 'update', 'delete'");
+                view.write("Make your selection: 'create', 'read', 'update', 'delete'");
 
                 String readCrud = view.read();
                 readCrudOption(readCrud);
@@ -53,6 +53,15 @@ public class Controller {
 
                 String readCreate = view.read();
                 readCreateOption(readCreate);
+
+                break;
+            }
+
+            case "read": {
+                view.write("What do you want to find: 'company', 'customer', 'developer', 'project'");
+
+                String readOption = view.read();
+                readReadOption(readOption);
 
                 break;
             }
@@ -104,6 +113,40 @@ public class Controller {
             case "project": {
                 ProjectService service = new ProjectService(view);
                 service.createProject();
+                readOption();
+                break;
+            }
+            default: {
+                view.write("Enter the correct command");
+                readOption();
+                break;
+            }
+        }
+    }
+
+    private void readReadOption(String readOption) {
+        switch (readOption) {
+            case "company": {
+                CompanyService service = new CompanyService(view);
+                service.readCompany();
+                readOption();
+                break;
+            }
+            case "customer": {
+                CustomerService service = new CustomerService(view);
+                service.readCustomer();
+                readOption();
+                break;
+            }
+            case "developer": {
+                DeveloperService service = new DeveloperService(view);
+                service.readDeveloper();
+                readOption();
+                break;
+            }
+            case "project": {
+                ProjectService service = new ProjectService(view);
+                service.readProject();
                 readOption();
                 break;
             }

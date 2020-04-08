@@ -1,6 +1,7 @@
 package com.project.management.domainDAO;
 
 import com.project.management.database.HibernateDatabaseConnector;
+import com.project.management.domain.Developer;
 import com.project.management.domain.Project;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,8 +31,15 @@ public class ProjectDAO extends DataAccessObject<Project> {
     }
 
     @Override
-    public void read(Project project) {
-
+    public Project read(int id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding project by id: %s", id));
+        Project project = session.get(Project.class, id);
+        transaction.commit();
+        session.close();
+        LOG.debug(String.format("Project: %s", project));
+        return project;
     }
 
     @Override

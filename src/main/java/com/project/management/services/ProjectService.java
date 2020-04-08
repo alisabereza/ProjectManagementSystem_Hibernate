@@ -2,6 +2,7 @@ package com.project.management.services;
 
 import com.project.management.console.View;
 import com.project.management.domain.Company;
+import com.project.management.domain.Developer;
 import com.project.management.domain.Project;
 import com.project.management.domainDAO.CompanyDAO;
 import com.project.management.domainDAO.ProjectDAO;
@@ -32,6 +33,13 @@ public class ProjectService {
         else {
         Project project = new Project(name, startDate, cost, company);
         projectDAO.create(project);}
+    }
+    public void readProject() {
+        view.write("Enter id");
+        int id = InputValueValidator.validateInt(view);
+        Project project   = projectDAO.read(id);
+        if (project==null) {view.write("Project not found");}
+        else {view.write("Project found:" + project.toString());}
     }
 
     public void deleteProject() {

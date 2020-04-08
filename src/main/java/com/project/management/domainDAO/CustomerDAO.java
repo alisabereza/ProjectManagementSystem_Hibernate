@@ -2,6 +2,7 @@ package com.project.management.domainDAO;
 
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.domain.Customer;
+import com.project.management.domain.Developer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -48,8 +49,15 @@ public class CustomerDAO extends DataAccessObject<Customer> {
     }
 
     @Override
-    public void read(Customer customer) {
-
+    public Customer read(int id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding Customer by id: %s", id));
+        Customer customer = session.get(Customer.class, id);
+        transaction.commit();
+        session.close();
+        LOG.debug(String.format("Customer: %s", customer));
+        return customer;
     }
 
     @Override

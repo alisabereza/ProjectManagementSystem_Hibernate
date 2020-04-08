@@ -31,4 +31,12 @@ public class CompanyService {
        if (company==null) {view.write("Company not found");}
         else {companyDAO.delete(company);}
     }
+
+    public void readCompany() {
+        view.write("Enter id");
+        int id = InputValueValidator.validateInt(view);
+        Company company = companyDAO.read(id);
+        if (company==null) {view.write("Company not found");}
+        else {view.write("Company found:" + company.toString());}
+    }
 }

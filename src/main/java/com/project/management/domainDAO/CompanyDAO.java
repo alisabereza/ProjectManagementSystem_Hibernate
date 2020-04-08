@@ -31,8 +31,15 @@ public class CompanyDAO extends DataAccessObject<Company> {
     }
 
     @Override
-    public void read(Company company) {
-
+    public Company read(int id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding company by id: %s", id));
+        Company company = session.get(Company.class, id);
+        transaction.commit();
+        session.close();
+        LOG.debug(String.format("Company : %s", company));
+        return company;
     }
 
     @Override

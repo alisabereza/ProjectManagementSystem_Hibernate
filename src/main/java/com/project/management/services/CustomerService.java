@@ -1,6 +1,7 @@
 package com.project.management.services;
 
 import com.project.management.console.View;
+import com.project.management.domain.Company;
 import com.project.management.domain.Customer;
 import com.project.management.domainDAO.CustomerDAO;
 
@@ -20,6 +21,14 @@ public class CustomerService {
         String phone = InputValueValidator.validateString(view);
         Customer customer = new Customer(name, phone);
         customerDAO.create(customer);
+    }
+
+    public void readCustomer() {
+        view.write("Enter id");
+        int id = InputValueValidator.validateInt(view);
+        Customer customer  = customerDAO.read(id);
+        if (customer==null) {view.write("Customer not found");}
+        else {view.write("Customer found:" + customer.toString());}
     }
 
     public void deleteCustomer() {
