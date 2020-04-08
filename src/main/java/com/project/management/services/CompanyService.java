@@ -27,10 +27,8 @@ public class CompanyService {
     public void deleteCompany() {
         view.write("Enter a Company name");
         String name = InputValueValidator.validateString(view);
-        try {Company company = companyDAO.findByName(name);
-        companyDAO.delete(company);}
-        catch (NullPointerException e) {
-            view.write("Company with this name was not found in database");
-        }
+       Company company = companyDAO.findByName(name);
+       if (company==null) {view.write("Company not found");}
+        else {companyDAO.delete(company);}
     }
 }

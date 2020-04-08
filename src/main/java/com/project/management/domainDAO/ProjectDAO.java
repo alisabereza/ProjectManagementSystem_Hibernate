@@ -7,9 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-
-import javax.persistence.NoResultException;
+import org.hibernate.query.Query;
 
 public class ProjectDAO extends DataAccessObject<Project> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
@@ -57,12 +55,11 @@ public class ProjectDAO extends DataAccessObject<Project> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         LOG.debug(String.format("Finding Project, name = %s", name));
-        NativeQuery query = session.createNativeQuery("select * from projects where project_name= '" + name + "'");
-        query.addEntity(Project.class);
+        Query query = session.createQuery("from Project p where p.name = :name");
         Project result;
-        try {result = (Project) query.getSingleResult();
+        try {result = (Project) query.setParameter("name", name).uniqueResult();
         transaction.commit();}
-        catch (NoResultException e) {
+        catch (Exception e) {
             throw new NullPointerException("Project with the phone number provided does not exist in database");
         }
         session.close();

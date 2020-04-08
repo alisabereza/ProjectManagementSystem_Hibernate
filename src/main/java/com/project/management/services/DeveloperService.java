@@ -22,7 +22,7 @@ public class DeveloperService {
         String name = InputValueValidator.validateString(view);
         view.write("Enter a age");
         int age = InputValueValidator.validateInt(view);
-        view.write("Enter a Developer gender ('MAN' or 'WOMAN')");
+        view.write("Enter a Developer gender ('man' or 'woman')");
         String gender = InputValueValidator.validateGender(view);
         view.write("Enter a Developer salary");
         int salary = InputValueValidator.validateInt(view);
@@ -71,11 +71,8 @@ public class DeveloperService {
     public void deleteDeveloper() {
         view.write("Enter a Developer name");
         String name = InputValueValidator.validateString(view);
-        try {Developer developer = developerDAO.findByName(name);
-        developerDAO.delete(developer);}
-        catch (NullPointerException e) {
-            view.write(e.getMessage());
-        }
-
+        Developer developer = developerDAO.findByName(name);
+        if (developer==null) {view.write("Developer not found");}
+        else {developerDAO.delete(developer);}
     }
 }

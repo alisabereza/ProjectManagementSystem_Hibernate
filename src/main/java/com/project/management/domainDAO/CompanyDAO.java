@@ -8,10 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-
-import javax.persistence.NoResultException;
-
+import org.hibernate.query.Query;
 
 public class CompanyDAO extends DataAccessObject<Company> {
     private final static Logger LOG = LogManager.getLogger(CompanyDAO.class);
@@ -60,13 +57,12 @@ public class CompanyDAO extends DataAccessObject<Company> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         LOG.debug(String.format("Finding company, name = %s", name));
-        NativeQuery query = session.createNativeQuery("select * from companies where company_name= '" + name + "'");
-        query.addEntity(Company.class);
+        Query query2 = session.createQuery("from Company as c where c.name=:name");
         Company result;
         try {
-        result = (Company) query.getSingleResult();
+        result = (Company) query2.setParameter("name", name).uniqueResult();
         transaction.commit();}
-        catch (NoResultException e) {
+        catch (Exception e) {
             throw new NullPointerException("Company with the name provided does not exist in database");
         }
         session.close();

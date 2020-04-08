@@ -7,9 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-
-import javax.persistence.NoResultException;
+import org.hibernate.query.Query;
 
 public class CustomerDAO extends DataAccessObject<Customer> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
@@ -24,12 +22,12 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         LOG.debug(String.format("Finding customer, phone = %s", phone));
-        NativeQuery query = session.createNativeQuery("select * from customers where customer_phone= '" + phone + "'");
-        query.addEntity(Customer.class);
+        Query query = session.createQuery("from Customer c where c.phone = :phone");
+
         Customer result;
-        try { result = (Customer) query.getSingleResult();
+        try { result = (Customer) query.setParameter("phone", phone).uniqueResult();
             transaction.commit();}
-        catch (NoResultException e) {
+        catch (Exception e) {
             throw new NullPointerException("Customer with the phone number provided does not exist in database");
         }
         session.close();

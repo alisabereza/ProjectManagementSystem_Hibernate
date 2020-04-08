@@ -28,20 +28,20 @@ public class CustomerService {
         try {Customer customer = customerDAO.findByPhone(phone);
             customerDAO.delete(customer);}
         catch (NullPointerException e) {
-            view.write(e.getMessage());
+            view.write("Customer not found: " + e.getMessage());
         }
     }
 
     public void updateCustomer() {
         view.write("Enter phone number");
         String phone = InputValueValidator.validateString(view);
-        try {Customer customer = customerDAO.findByPhone(phone);
-            view.write("Enter new phone number: ");
+            Customer customer = customerDAO.findByPhone(phone);
+            if (customer==null)
+            {view.write("Customer not found");}
+            else {view.write("Enter new phone number: ");
             phone = InputValueValidator.validateString(view);
             customer.setPhone(phone);
             customerDAO.update(customer);}
-        catch (NullPointerException e) {
-            view.write(e.getMessage());
-        }
+
     }
 }

@@ -7,9 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-
-import javax.persistence.NoResultException;
+import org.hibernate.query.Query;
 
 public class DeveloperDAO extends DataAccessObject<Developer> {
     private final static Logger LOG = LogManager.getLogger(DeveloperDAO.class);
@@ -54,8 +52,8 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         LOG.debug(String.format("Deleting developer: %s", developer.getName()));
-            session.delete(developer);
-            transaction.commit();
+        session.delete(developer);
+        transaction.commit();
         LOG.debug(String.format("Developer deleted: %s", developer.getName()));
         System.out.println(String.format("Developer deleted: %s", developer.getName()));
         session.close();
@@ -65,14 +63,15 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         LOG.debug(String.format("Finding Developer, name = %s", name));
-        NativeQuery query = session.createNativeQuery("select * from developers where developer_name= '" + name + "'");
-        query.addEntity(Developer.class);
-        Developer result;
-    try { result = (Developer) query.getSingleResult();}
-                catch (NoResultException e) {
-            throw new NullPointerException("Developer with the name provided does not exist in database");
+        Query query = session.createQuery("from Developer d where d.name= :name");
+        Developer result= null;
+        try {
+            result = (Developer) query.setParameter("name", name).uniqueResult();
+            transaction.commit();
+
+        } catch (Exception e) {
+            System.out.println("Exception in database: " + e.getMessage());
         }
-        transaction.commit();
         session.close();
         return result;
     }

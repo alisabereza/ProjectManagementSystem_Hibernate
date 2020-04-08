@@ -423,3 +423,32 @@ where level.level = '
 2020-04-06 15:25:53 DEBUG CompanyDAO:62 - Finding company, name = EMAM
 2020-04-06 15:25:53 DEBUG CompanyDAO:50 - Deleting company: EMAM
 2020-04-06 15:25:53 DEBUG CompanyDAO:52 - Company deleted: EMAM
+2020-04-06 17:47:09 DEBUG CompanyDAO:28 - Creating company: COVID19
+2020-04-06 17:47:09 DEBUG CompanyDAO:32 - Company created: COVID19
+2020-04-08 12:29:22 DEBUG CompanyDAO:63 - Finding company, name = MMM
+2020-04-08 12:31:26 DEBUG CompanyDAO:63 - Finding company, name = MMM
+2020-04-08 12:31:26 DEBUG CompanyDAO:51 - Deleting company: MMM
+2020-04-08 12:31:26 DEBUG CompanyDAO:53 - Company deleted: MMM
+2020-04-08 12:38:49 DEBUG CustomerDAO:26 - Finding customer, phone = 056-333-44-55
+2020-04-08 12:38:50 DEBUG CustomerDAO:73 - Deleting customer = Beverly
+2020-04-08 12:38:50 DEBUG CustomerDAO:76 - Customer deleted: Beverly
+2020-04-08 12:39:06 DEBUG CustomerDAO:26 - Finding customer, phone = 123
+2020-04-08 12:41:33 DEBUG CustomerDAO:26 - Finding customer, phone = 123
+2020-04-08 12:43:36 DEBUG CustomerDAO:26 - Finding customer, phone = 123
+2020-04-08 12:44:03 DEBUG DeveloperDAO:68 - Finding Developer, name = Ivan Bereza
+2020-04-08 12:44:30 DEBUG DeveloperDAO:68 - Finding Developer, name = Ivan Bereza
+2020-04-08 12:45:37 DEBUG DeveloperDAO:68 - Finding Developer, name = Orest Vyshnya
+2020-04-08 12:45:45 DEBUG DeveloperDAO:45 - Updating developer: developer.name=Orest Vyshnya
+2020-04-08 12:45:45 DEBUG DeveloperDAO:48 - Developer updated: Orest Vyshnya
+2020-04-08 12:48:25 DEBUG CustomerDAO:26 - Finding customer, phone = 123
+2020-04-08 12:59:31 DEBUG CompanyDAO:59 - Finding company, name = IBM
+2020-04-08 12:59:32 DEBUG DeveloperDAO:28 - Creating developer: Masha
+2020-04-08 12:59:32 DEBUG DeveloperDAO:31 - Developer created: Masha
+2020-04-08 12:59:47 DEBUG DeveloperDAO:68 - Finding Developer, name = Masha
+2020-04-08 12:59:56 DEBUG DeveloperDAO:45 - Updating developer: developer.name=Masha
+2020-04-08 12:59:56 DEBUG DeveloperDAO:48 - Developer updated: Masha
+2020-04-08 13:00:10 DEBUG CustomerDAO:24 - Finding customer, phone = 12
+2020-04-08 13:01:04 DEBUG CustomerDAO:24 - Finding customer, phone = 044-233-15-32
+2020-04-08 13:01:11 DEBUG CustomerDAO:59 - Updating customer: customer.name=InterSport
+2020-04-08 13:01:11 DEBUG CustomerDAO:62 - Customer update: InterSport
+2020-04-08 13:01:35 DEBUG DeveloperDAO:68 - Finding Developer, name = 3
