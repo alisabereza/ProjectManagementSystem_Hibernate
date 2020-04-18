@@ -14,9 +14,9 @@ public class HibernateDatabaseConnector {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
-    private static HibernateDatabaseConnector instance = new HibernateDatabaseConnector();
+    private static HibernateDatabaseConnector instance;
 
-    private HibernateDatabaseConnector() {
+    static {instance = new HibernateDatabaseConnector();
         try {
             registry = new StandardServiceRegistryBuilder().configure().build();
             MetadataSources sources = new MetadataSources(registry);
@@ -35,16 +35,6 @@ public class HibernateDatabaseConnector {
         return sessionFactory;
     }
 
-    public static synchronized void init() {
-        try {
-            registry = new StandardServiceRegistryBuilder().configure().build();
-            MetadataSources sources = new MetadataSources(registry);
-            final Metadata metadata = sources.getMetadataBuilder().build();
-            sessionFactory = metadata.getSessionFactoryBuilder().build();
-        } catch (Exception e) {
-            LOG.error("init hibernate", e);
-        }
-    }
 
     public static synchronized void destroy() {
         if (sessionFactory != null) {

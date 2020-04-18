@@ -7,21 +7,19 @@ import com.project.management.domainDAO.CompanyDAO;
 import java.time.LocalDate;
 
 public class CompanyService {
-    private final View view;
+    private final View view= null;
     private CompanyDAO companyDAO;
 
     public CompanyService(View view) {
-        this.view = view;
+          companyDAO = new CompanyDAO();
+    }
+
+    public CompanyService() {
         companyDAO = new CompanyDAO();
     }
 
-    public void createCompany() {
-        view.write("Enter a Company name");
-        String name = InputValueValidator.validateString(view);
-        view.write("Enter Start Date in format YYYY-MM-DD");
-        LocalDate startDate = InputValueValidator.validateDate(view);
-        Company Company = new Company(name, startDate);
-        companyDAO.create(Company);
+    public void createCompany(Company company) {
+        companyDAO.create(company);
     }
 
     public void deleteCompany() {
@@ -32,11 +30,17 @@ public class CompanyService {
         else {companyDAO.delete(company);}
     }
 
-    public void readCompany() {
-        view.write("Enter id");
-        int id = InputValueValidator.validateInt(view);
+    public Company readCompany(int id) {
+        System.out.println("I am in CompanyService. ID is: " + id);
         Company company = companyDAO.read(id);
-        if (company==null) {view.write("Company not found");}
-        else {view.write("Company found:" + company.toString());}
+        if (company==null) {
+            System.out.println("Company not found");}
+        else {
+            System.out.println("Company found:" + company);}
+        return  company;
+    }
+
+    public Company findByName(String name) {
+        return companyDAO.findByName(name);
     }
 }

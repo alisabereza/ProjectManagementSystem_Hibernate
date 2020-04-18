@@ -10,6 +10,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.List;
+
 public class DeveloperDAO extends DataAccessObject<Developer> {
     private final static Logger LOG = LogManager.getLogger(DeveloperDAO.class);
     private SessionFactory sessionFactory;
@@ -82,5 +84,14 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         }
         session.close();
         return result;
+    }
+
+    public List<Developer> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Developer").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

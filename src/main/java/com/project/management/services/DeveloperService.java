@@ -9,28 +9,20 @@ import com.project.management.domainDAO.DeveloperDAO;
 import com.project.management.domain.DeveloperGender;
 
 public class DeveloperService {
-    private final View view;
+    private final View view=null;
     private DeveloperDAO developerDAO;
 
     public DeveloperService(View view) {
-        this.view = view;
+        //this.view = view;
         developerDAO = new DeveloperDAO();
 
     }
 
-    public void createDeveloper() {
-        view.write("Enter a Developer name");
-        String name = InputValueValidator.validateString(view);
-        view.write("Enter a age");
-        int age = InputValueValidator.validateInt(view);
-        view.write("Enter a Developer gender ('man' or 'woman')");
-        String gender = InputValueValidator.validateGender(view);
-        view.write("Enter a Developer salary");
-        int salary = InputValueValidator.validateInt(view);
-        view.write("Enter Company name: ");
-        String companyName = InputValueValidator.validateString(view);
-        Company company = new CompanyDAO().findByName(companyName);
-        Developer developer = new Developer(name, age, DeveloperGender.valueOf(gender), salary, company);
+    public DeveloperService() {
+        developerDAO = new DeveloperDAO();
+    }
+
+    public void createDeveloper(Developer developer) {
         developerDAO.create(developer);
     }
 
@@ -83,5 +75,9 @@ public class DeveloperService {
         Developer developer = developerDAO.findByName(name);
         if (developer==null) {view.write("Developer not found");}
         else {developerDAO.delete(developer);}
+    }
+
+    public Developer findByName(String name) {
+        return developerDAO.findByName(name);
     }
 }

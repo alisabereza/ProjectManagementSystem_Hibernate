@@ -94,7 +94,7 @@ public class Controller {
         switch (readCreate) {
             case "company": {
                 CompanyService service = new CompanyService(view);
-                service.createCompany();
+               // service.createCompany();
                 readOption();
                 break;
             }
@@ -106,7 +106,7 @@ public class Controller {
             }
             case "developer": {
                 DeveloperService service = new DeveloperService(view);
-                service.createDeveloper();
+               // service.createDeveloper();
                 readOption();
                 break;
             }
@@ -128,7 +128,7 @@ public class Controller {
         switch (readOption) {
             case "company": {
                 CompanyService service = new CompanyService(view);
-                service.readCompany();
+                //service.readCompany();
                 readOption();
                 break;
             }

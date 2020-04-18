@@ -1,0 +1,100 @@
+package com.project.management.controller;
+
+import com.project.management.config.ErrorMessage;
+import com.project.management.domain.Company;
+import com.project.management.services.CompanyService;
+import com.project.management.services.Validator;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
+
+@WebServlet(urlPatterns = "/company/*")
+public class CompanyServlet extends HttpServlet {
+    private CompanyService service;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        service = new CompanyService();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = getAction(req);
+        System.out.println(action);
+            if (action.startsWith("/findCompany")) {
+            req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
+
+        } else if (action.startsWith("/createCompany")) {
+            req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = getAction(req);
+        if (action.startsWith("/createCompany")) {
+            Company company = mapCompany(req);
+            List<ErrorMessage> errorMessages = validateCompany(company);
+            if (!errorMessages.isEmpty()) {
+                req.setAttribute("errors", errorMessages);
+                req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+            } else {
+                service.createCompany(company);
+                req.setAttribute("message", "New Company created: " + company.getName());
+                req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/findCompany")) {
+            final String id = req.getParameter("id").trim();
+            final Company company = service.readCompany(Integer.parseInt(id));
+            if (company==null)
+            {
+                req.setAttribute("message", "Company not found");
+                req.getRequestDispatcher("/view/find_company.jsp").forward(req,resp);}
+            else {
+                System.out.println(company.getName());
+                req.setAttribute("message", String.format("Company found: ID=%s, title=%s, start date=%s",company.getId(), company.getName(), company.getStartDate()));
+                req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
+            }
+        }
+    }
+
+        private Company mapCompany (HttpServletRequest req){
+            final String companyName = req.getParameter("title").trim();
+            DateTimeFormatter df = new DateTimeFormatterBuilder()
+                    .parseCaseInsensitive()
+                    .appendPattern("dd-MMM-yyyy")
+                    .toFormatter(Locale.ENGLISH);
+            final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
+            Company company = new Company(companyName, startDate);
+            return company;
+        }
+
+        private List<ErrorMessage> validateCompany (Company company){
+            final List<ErrorMessage> errorMessages = Validator.validateEntity(company);
+            final Company persistentCompany = service.findByName(company.getName());
+            if (Objects.nonNull(persistentCompany) && !persistentCompany.getName().isEmpty()) {
+                errorMessages.add(new ErrorMessage("", "Company with this title already exists"));
+            }
+            return errorMessages;
+        }
+
+
+        private String getAction (HttpServletRequest req){
+            final String requestURI = req.getRequestURI();
+            String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
+            return requestURI.substring(requestPathWithServletContext.length());
+        }
+    }
+
