@@ -1,5 +1,6 @@
 package com.project.management.domain;
 
+import com.project.management.config.EnumValidator;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Developer {
     @Column(name="developer_age")
     private int age;
 
+    @EnumValidator(regexp = "MAN|WOMAN")
     @Enumerated(EnumType.STRING)
     @Column(name="developer_gender")
     private DeveloperGender gender;
@@ -91,8 +93,8 @@ public class Developer {
         this.age = age;
     }
 
-    public String getGender() {
-        return gender.getGender();
+    public DeveloperGender getGender() {
+        return gender;
     }
 
     public void setGender(DeveloperGender gender) {
