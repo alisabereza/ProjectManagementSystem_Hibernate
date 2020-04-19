@@ -1,4 +1,4 @@
-package com.project.management.config;
+package com.project.management.utils;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

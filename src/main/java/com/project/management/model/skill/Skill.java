@@ -1,4 +1,4 @@
-package com.project.management.domain;
+package com.project.management.model.skill;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 

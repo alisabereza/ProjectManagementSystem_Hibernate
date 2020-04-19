@@ -1,6 +1,4 @@
-package com.project.management.services;
-
-import com.project.management.config.ErrorMessage;
+package com.project.management.utils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -9,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Validator {
+public class EntityValidator {
     public static <T> List<ErrorMessage> validateEntity(T entity) {
         List<ErrorMessage> errors = new ArrayList<>();
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();

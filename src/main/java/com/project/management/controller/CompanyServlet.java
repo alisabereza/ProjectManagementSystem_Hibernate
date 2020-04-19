@@ -1,9 +1,9 @@
 package com.project.management.controller;
 
-import com.project.management.config.ErrorMessage;
-import com.project.management.domain.Company;
-import com.project.management.domainDAO.CompanyDAO;
-import com.project.management.services.Validator;
+import com.project.management.utils.ErrorMessage;
+import com.project.management.model.company.Company;
+import com.project.management.model.company.CompanyDAO;
+import com.project.management.utils.EntityValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -87,7 +87,7 @@ public class CompanyServlet extends HttpServlet {
     }
 
     private List<ErrorMessage> validateCompany(Company company) {
-        final List<ErrorMessage> errorMessages = Validator.validateEntity(company);
+        final List<ErrorMessage> errorMessages = EntityValidator.validateEntity(company);
         final Company persistentCompany = companyDAO.findByName(company.getName());
         if (Objects.nonNull(persistentCompany) && !persistentCompany.getName().isEmpty()) {
             errorMessages.add(new ErrorMessage("", "Company with this title already exists"));

@@ -1,6 +1,9 @@
-package com.project.management.domain;
+package com.project.management.model.developer;
 
-import com.project.management.config.EnumValidator;
+import com.project.management.model.project.Project;
+import com.project.management.model.skill.Skill;
+import com.project.management.model.company.Company;
+import com.project.management.utils.EnumValidator;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;

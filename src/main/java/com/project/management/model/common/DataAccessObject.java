@@ -1,4 +1,4 @@
-package com.project.management.domainDAO;
+package com.project.management.model.common;
 
 import java.sql.SQLException;
 

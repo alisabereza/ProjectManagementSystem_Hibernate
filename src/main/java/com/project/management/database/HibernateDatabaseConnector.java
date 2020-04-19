@@ -7,8 +7,6 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
-
 public class HibernateDatabaseConnector {
     private static final Logger LOG = LogManager.getLogger(HibernateDatabaseConnector.class);
     private static StandardServiceRegistry registry;

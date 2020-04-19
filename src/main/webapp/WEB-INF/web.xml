@@ -7,6 +7,6 @@
          metadata-complete="false">
 
     <listener>
-        <listener-class>com.project.management.config.AppInit</listener-class>
+        <listener-class>com.project.management.utils.AppInit</listener-class>
     </listener>
 </web-app>

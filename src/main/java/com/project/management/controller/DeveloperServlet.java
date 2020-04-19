@@ -1,12 +1,12 @@
 package com.project.management.controller;
 
-import com.project.management.config.ErrorMessage;
-import com.project.management.domain.Company;
-import com.project.management.domain.Developer;
-import com.project.management.domain.DeveloperGender;
-import com.project.management.domainDAO.CompanyDAO;
-import com.project.management.domainDAO.DeveloperDAO;
-import com.project.management.services.Validator;
+import com.project.management.utils.ErrorMessage;
+import com.project.management.model.company.Company;
+import com.project.management.model.developer.Developer;
+import com.project.management.model.developer.DeveloperGender;
+import com.project.management.model.company.CompanyDAO;
+import com.project.management.model.developer.DeveloperDAO;
+import com.project.management.utils.EntityValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -112,20 +112,18 @@ public class DeveloperServlet extends HttpServlet {
         DeveloperGender gender= DeveloperGender.valueOf(req.getParameter("gender"));
         final int salary = Integer.parseInt(req.getParameter("salary"));
         Company company = new CompanyDAO().findByName(req.getParameter("companyName"));
-        Developer developer = new Developer(name, age, gender, salary, company);
-        return developer;
+        return new Developer(name, age, gender, salary, company);
     }
 
     private List<ErrorMessage> validateDeveloper (Developer developer){
-        final List<ErrorMessage> errorMessages = Validator.validateEntity(developer);
+        final List<ErrorMessage> errorMessages = EntityValidator.validateEntity(developer);
         final Developer persistentDeveloper = developerDAO.findByName(developer.getName());
         if (Objects.nonNull(persistentDeveloper) && !persistentDeveloper.getName().isEmpty()) {
             errorMessages.add(new ErrorMessage("", "Developer with this name already exists"));
         }
         return errorMessages;
     }
-
-
+    
     private String getAction (HttpServletRequest req){
         final String requestURI = req.getRequestURI();
         String requestPathWithServletContext = req.getContextPath() + req.getServletPath();

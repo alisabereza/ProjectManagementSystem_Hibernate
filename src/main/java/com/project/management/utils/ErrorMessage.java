@@ -1,4 +1,4 @@
-package com.project.management.config;
+package com.project.management.utils;
 
 public class ErrorMessage {
     private String field;

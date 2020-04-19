@@ -1,5 +1,7 @@
-package com.project.management.domain;
+package com.project.management.model.company;
 
+import com.project.management.model.developer.Developer;
+import com.project.management.model.project.Project;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;

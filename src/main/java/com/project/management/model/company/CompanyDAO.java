@@ -1,9 +1,8 @@
-package com.project.management.domainDAO;
+package com.project.management.model.company;
 
 
 import com.project.management.database.HibernateDatabaseConnector;
-import com.project.management.domain.Company;
-import com.project.management.domain.Developer;
+import com.project.management.model.common.DataAccessObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;

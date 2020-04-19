@@ -16,11 +16,11 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.cache.use_second_level_cache">true</property>
         <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-         <mapping class="com.project.management.domain.Company"/>
-        <mapping class="com.project.management.domain.Customer"/>
-        <mapping class="com.project.management.domain.Project"/>
-        <mapping class="com.project.management.domain.Developer"/>
-        <mapping class="com.project.management.domain.Skill"/>
+         <mapping class="com.project.management.model.company.Company"/>
+        <mapping class="com.project.management.model.customer.Customer"/>
+        <mapping class="com.project.management.model.project.Project"/>
+        <mapping class="com.project.management.model.developer.Developer"/>
+        <mapping class="com.project.management.model.skill.Skill"/>
 
 
     </session-factory>

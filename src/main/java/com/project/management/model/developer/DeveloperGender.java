@@ -1,4 +1,4 @@
-package com.project.management.domain;
+package com.project.management.model.developer;
 
 import java.util.Arrays;
 import java.util.Optional;
