@@ -2,10 +2,7 @@ package com.project.management.controller;
 
 import com.project.management.config.ErrorMessage;
 import com.project.management.domain.Company;
-import com.project.management.domain.Developer;
 import com.project.management.domainDAO.CompanyDAO;
-import com.project.management.domainDAO.DeveloperDAO;
-import com.project.management.services.CompanyService;
 import com.project.management.services.Validator;
 
 import javax.servlet.ServletException;
@@ -14,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -87,8 +83,7 @@ public class CompanyServlet extends HttpServlet {
                 .appendPattern("dd-MMM-yyyy")
                 .toFormatter(Locale.ENGLISH);
         final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
-        Company company = new Company(companyName, startDate);
-        return company;
+        return new Company(companyName, startDate);
     }
 
     private List<ErrorMessage> validateCompany(Company company) {
