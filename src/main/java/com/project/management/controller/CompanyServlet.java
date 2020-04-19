@@ -2,6 +2,9 @@ package com.project.management.controller;
 
 import com.project.management.config.ErrorMessage;
 import com.project.management.domain.Company;
+import com.project.management.domain.Developer;
+import com.project.management.domainDAO.CompanyDAO;
+import com.project.management.domainDAO.DeveloperDAO;
 import com.project.management.services.CompanyService;
 import com.project.management.services.Validator;
 
@@ -19,23 +22,31 @@ import java.util.*;
 
 @WebServlet(urlPatterns = "/company/*")
 public class CompanyServlet extends HttpServlet {
-    private CompanyService service;
+    private CompanyDAO companyDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        service = new CompanyService();
+        companyDAO = new CompanyDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
         System.out.println(action);
-            if (action.startsWith("/findCompany")) {
+        if (action.startsWith("/findCompany")) {
             req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
 
-        } else if (action.startsWith("/createCompany")) {
+        }
+        if (action.startsWith("/createCompany")) {
             req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+        }
+        if (action.startsWith("/allCompanies")) {
+            List<Company> companies = companyDAO.getAll();
+            System.out.println(companies.get(0));
+            req.setAttribute("companies", companies);
+            System.out.println(companies.get(1));
+            req.getRequestDispatcher("/view/all_companies.jsp").forward(req, resp);
         }
     }
 
@@ -49,7 +60,7 @@ public class CompanyServlet extends HttpServlet {
                 req.setAttribute("errors", errorMessages);
                 req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
             } else {
-                service.createCompany(company);
+                companyDAO.create(company);
                 req.setAttribute("message", "New Company created: " + company.getName());
                 req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
             }
@@ -57,44 +68,43 @@ public class CompanyServlet extends HttpServlet {
 
         if (action.startsWith("/findCompany")) {
             final String id = req.getParameter("id").trim();
-            final Company company = service.readCompany(Integer.parseInt(id));
-            if (company==null)
-            {
+            final Company company = companyDAO.read(Integer.parseInt(id));
+            if (company == null) {
                 req.setAttribute("message", "Company not found");
-                req.getRequestDispatcher("/view/find_company.jsp").forward(req,resp);}
-            else {
-                System.out.println(company.getName());
-                req.setAttribute("message", String.format("Company found: ID=%s, title=%s, start date=%s",company.getId(), company.getName(), company.getStartDate()));
+                req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("message", String.format("Company found: ID=%s, title=%s, start date=%s", company.getId(), company.getName(), company.getStartDate()));
                 req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
             }
         }
+
     }
 
-        private Company mapCompany (HttpServletRequest req){
-            final String companyName = req.getParameter("title").trim();
-            DateTimeFormatter df = new DateTimeFormatterBuilder()
-                    .parseCaseInsensitive()
-                    .appendPattern("dd-MMM-yyyy")
-                    .toFormatter(Locale.ENGLISH);
-            final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
-            Company company = new Company(companyName, startDate);
-            return company;
-        }
-
-        private List<ErrorMessage> validateCompany (Company company){
-            final List<ErrorMessage> errorMessages = Validator.validateEntity(company);
-            final Company persistentCompany = service.findByName(company.getName());
-            if (Objects.nonNull(persistentCompany) && !persistentCompany.getName().isEmpty()) {
-                errorMessages.add(new ErrorMessage("", "Company with this title already exists"));
-            }
-            return errorMessages;
-        }
-
-
-        private String getAction (HttpServletRequest req){
-            final String requestURI = req.getRequestURI();
-            String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
-            return requestURI.substring(requestPathWithServletContext.length());
-        }
+    private Company mapCompany(HttpServletRequest req) {
+        final String companyName = req.getParameter("title").trim();
+        DateTimeFormatter df = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .appendPattern("dd-MMM-yyyy")
+                .toFormatter(Locale.ENGLISH);
+        final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
+        Company company = new Company(companyName, startDate);
+        return company;
     }
+
+    private List<ErrorMessage> validateCompany(Company company) {
+        final List<ErrorMessage> errorMessages = Validator.validateEntity(company);
+        final Company persistentCompany = companyDAO.findByName(company.getName());
+        if (Objects.nonNull(persistentCompany) && !persistentCompany.getName().isEmpty()) {
+            errorMessages.add(new ErrorMessage("", "Company with this title already exists"));
+        }
+        return errorMessages;
+    }
+
+
+    private String getAction(HttpServletRequest req) {
+        final String requestURI = req.getRequestURI();
+        String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
+        return requestURI.substring(requestPathWithServletContext.length());
+    }
+}
 

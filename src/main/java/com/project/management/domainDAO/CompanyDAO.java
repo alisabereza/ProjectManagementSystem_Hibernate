@@ -3,12 +3,15 @@ package com.project.management.domainDAO;
 
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.domain.Company;
+import com.project.management.domain.Developer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class CompanyDAO extends DataAccessObject<Company> {
     private final static Logger LOG = LogManager.getLogger(CompanyDAO.class);
@@ -74,5 +77,14 @@ public class CompanyDAO extends DataAccessObject<Company> {
         }
         session.close();
         return result;
+    }
+
+    public List<Company> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Company").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

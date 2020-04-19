@@ -22,6 +22,10 @@ public class Developer {
     @Column(name="developer_age")
     private int age;
 
+    public Company getCompany() {
+        return company;
+    }
+
     @EnumValidator(regexp = "MAN|WOMAN")
     @Enumerated(EnumType.STRING)
     @Column(name="developer_gender")

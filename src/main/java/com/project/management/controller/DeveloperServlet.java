@@ -45,15 +45,15 @@ public class DeveloperServlet extends HttpServlet {
             req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
         }
         else if (action.startsWith("/updateDeveloper")) {
-            req.getRequestDispatcher("/view/developerView/update_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/update_developer.jsp").forward(req, resp);
         }
         else if (action.startsWith("/deleteDeveloper")) {
-            req.getRequestDispatcher("/view/developerView/delete_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/delete_developer.jsp").forward(req, resp);
         }
-        else if (action.startsWith("/showAllDevelopers")) {
+        else if (action.startsWith("/allDevelopers")) {
             List<Developer> developers = developerDAO.getAll();
             req.setAttribute("developers", developers);
-            req.getRequestDispatcher("/view/developerView/show_developers.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/all_developers.jsp").forward(req, resp);
         }
     }
 
@@ -84,6 +84,18 @@ public class DeveloperServlet extends HttpServlet {
             int id = Integer.parseInt(req.getParameter("id"));
             developerDAO.delete(developerDAO.read(id));
             req.getRequestDispatcher("/view/developerView/developer_deleted.jsp").forward(req, resp);
+        }
+        if (action.startsWith("/findDeveloper")) {
+            final String id = req.getParameter("id").trim();
+            final Developer developer = developerDAO.read(Integer.parseInt(id));
+            if (developer==null)
+            {
+                req.setAttribute("message", "Developer not found");
+                req.getRequestDispatcher("/view/find_developer.jsp").forward(req,resp);}
+            else {
+                req.setAttribute("message", String.format("Developer found: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
+                req.getRequestDispatcher("/view/find_developer.jsp").forward(req, resp);
+            }
         }
 
     }
