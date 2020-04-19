@@ -1,14 +1,17 @@
 package com.project.management.model.customer;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.List;
 
+@NoArgsConstructor
 @Table(name = "customers")
 @Entity
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Customer {
+public @Data class Customer {
 
     @Column(name = "customer_name")
     private String name;
@@ -29,28 +32,8 @@ public class Customer {
     )
     private List<Customer> customers;
 
-    public Customer() {
-    }
-
     public Customer(String name, String phone) {
         this.name = name;
-        this.phone = phone;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -62,7 +45,4 @@ public class Customer {
                 '}';
     }
 
-    public int getId() {
-        return id;
-    }
 }

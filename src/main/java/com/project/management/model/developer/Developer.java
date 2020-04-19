@@ -4,15 +4,18 @@ import com.project.management.model.project.Project;
 import com.project.management.model.skill.Skill;
 import com.project.management.model.company.Company;
 import com.project.management.utils.EnumValidator;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.List;
 
+@NoArgsConstructor
 @Table(name ="developers")
 @Entity
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Developer {
+public @Data class Developer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,9 +62,6 @@ public class Developer {
     )
     private List<Project> projects;
 
-
-    public Developer () {}
-
     public Developer(String name, int age, DeveloperGender gender, int salary, Company company) {
         this.name = name;
         this.age = age;
@@ -70,49 +70,8 @@ public class Developer {
         this.company = company;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Developer(String name, int salary) {
         this.name = name;
-        this.salary = salary;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public DeveloperGender getGender() {
-        return gender;
-    }
-
-    public void setGender(DeveloperGender gender) {
-        this.gender = gender;
-    }
-
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
         this.salary = salary;
     }
 
@@ -127,7 +86,4 @@ public class Developer {
                 '}';
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 }

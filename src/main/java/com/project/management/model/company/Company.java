@@ -3,7 +3,7 @@ package com.project.management.model.company;
 import com.project.management.model.developer.Developer;
 import com.project.management.model.project.Project;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -11,20 +11,23 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Table(name = "companies")
 @Entity
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public @Data class Company {
-    @Column(name = "company_name")
-    private String name;
-    @Column(name = "start_date")
-    private LocalDate startDate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
+    @Column(name = "company_name")
+    private String name;
+
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
@@ -39,7 +42,6 @@ public @Data class Company {
         this.name = name;
         this.startDate = startDate;
     }
-
 
     @Override
     public String toString() {
