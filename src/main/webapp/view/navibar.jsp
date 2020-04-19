@@ -19,8 +19,8 @@
         <div class="dropdown-content">
             <a href="${pageContext.request.contextPath}/developer/createDeveloper">Create Developer</a>
             <a href="${pageContext.request.contextPath}/developer/findDeveloper">Find by ID</a>
-            <a href="${pageContext.request.contextPath}/developer/update">Update Developer</a>
-            <a href="${pageContext.request.contextPath}/developer/delete">Delete Developer</a>
+            <a href="${pageContext.request.contextPath}/developer/updateDeveloper">Update Developer</a>
+            <a href="${pageContext.request.contextPath}/developer/deleteDeveloper">Delete Developer</a>
             <a href="${pageContext.request.contextPath}/developer/allDevelopers">List of Developers</a>
         </div>
     </div>

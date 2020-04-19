@@ -6,8 +6,6 @@ import com.project.management.domain.Developer;
 import com.project.management.domain.DeveloperGender;
 import com.project.management.domainDAO.CompanyDAO;
 import com.project.management.domainDAO.DeveloperDAO;
-import com.project.management.services.CompanyService;
-import com.project.management.services.DeveloperService;
 import com.project.management.services.Validator;
 
 import javax.servlet.ServletException;
@@ -16,11 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 @WebServlet(urlPatterns = "/developer/*")
@@ -40,17 +34,17 @@ public class DeveloperServlet extends HttpServlet {
         if (action.startsWith("/findDeveloper")) {
             req.getRequestDispatcher("/view/find_developer.jsp").forward(req, resp);
 
-        } else if (action.startsWith("/createDeveloper")) {
+        }  if (action.startsWith("/createDeveloper")) {
             req.setAttribute("genders", DeveloperGender.values());
             req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
         }
-        else if (action.startsWith("/updateDeveloper")) {
+         if (action.startsWith("/updateDeveloper")) {
             req.getRequestDispatcher("/view/update_developer.jsp").forward(req, resp);
         }
-        else if (action.startsWith("/deleteDeveloper")) {
+         if (action.startsWith("/deleteDeveloper")) {
             req.getRequestDispatcher("/view/delete_developer.jsp").forward(req, resp);
         }
-        else if (action.startsWith("/allDevelopers")) {
+         if (action.startsWith("/allDevelopers")) {
             List<Developer> developers = developerDAO.getAll();
             req.setAttribute("developers", developers);
             req.getRequestDispatcher("/view/all_developers.jsp").forward(req, resp);
@@ -65,25 +59,37 @@ public class DeveloperServlet extends HttpServlet {
             List<ErrorMessage> errorMessages = validateDeveloper(developer);
             if (!errorMessages.isEmpty()) {
                 req.setAttribute("errors", errorMessages);
-                req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
             } else {
                 developerDAO.create(developer);
                 req.setAttribute("genders", DeveloperGender.values());
                 req.setAttribute("message", "Developer created: " + developer.getName());
-                req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
             }
+            req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
         }
         if (action.startsWith("/updateDeveloper")) {
             Developer developer = developerDAO.read(Integer.parseInt(req.getParameter("id")));
+            if (developer==null)
+            {
+                req.setAttribute("message", "Developer not found");
+            }
+            else {
             int newSalary = Integer.parseInt(req.getParameter("salary"));
             developer.setSalary(newSalary);
             developerDAO.update(developer);
-            req.getRequestDispatcher("/view/developerView/developer_updated.jsp").forward(req, resp);
+            req.setAttribute("message", String.format("Developer updated: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
+}
+            req.getRequestDispatcher("/view/update_developer.jsp").forward(req, resp);
         }
         if (action.startsWith("/deleteDeveloper")) {
             int id = Integer.parseInt(req.getParameter("id"));
-            developerDAO.delete(developerDAO.read(id));
-            req.getRequestDispatcher("/view/developerView/developer_deleted.jsp").forward(req, resp);
+            if (developerDAO.read(id)==null)
+
+                {
+                    req.setAttribute("message", "Developer not found");
+                }
+            else {developerDAO.delete(developerDAO.read(id));
+            req.setAttribute("message", String.format("Developer with ID=%s deleted", id));}
+            req.getRequestDispatcher("/view/delete_developer.jsp").forward(req, resp);
         }
         if (action.startsWith("/findDeveloper")) {
             final String id = req.getParameter("id").trim();
@@ -91,11 +97,11 @@ public class DeveloperServlet extends HttpServlet {
             if (developer==null)
             {
                 req.setAttribute("message", "Developer not found");
-                req.getRequestDispatcher("/view/find_developer.jsp").forward(req,resp);}
+            }
             else {
                 req.setAttribute("message", String.format("Developer found: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
-                req.getRequestDispatcher("/view/find_developer.jsp").forward(req, resp);
             }
+            req.getRequestDispatcher("/view/find_developer.jsp").forward(req,resp);
         }
 
     }
