@@ -123,7 +123,7 @@ public class DeveloperServlet extends HttpServlet {
         }
         return errorMessages;
     }
-    
+
     private String getAction (HttpServletRequest req){
         final String requestURI = req.getRequestURI();
         String requestPathWithServletContext = req.getContextPath() + req.getServletPath();

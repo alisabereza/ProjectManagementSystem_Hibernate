@@ -57,7 +57,7 @@ public class CompanyServlet extends HttpServlet {
                 req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
             } else {
                 companyDAO.create(company);
-                req.setAttribute("message", "New Company created: " + company.getName());
+                req.setAttribute("message", "New Company created: " + company);
                 req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
             }
         }
@@ -69,7 +69,7 @@ public class CompanyServlet extends HttpServlet {
                 req.setAttribute("message", "Company not found");
                 req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
             } else {
-                req.setAttribute("message", String.format("Company found: ID=%s, title=%s, start date=%s", company.getId(), company.getName(), company.getStartDate()));
+                req.setAttribute("message", String.format("Company found: %s", company));
                 req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
             }
         }
