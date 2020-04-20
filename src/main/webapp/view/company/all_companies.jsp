@@ -1,8 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<html lang="en-us">
 <head>
-    <title>List of Developers</title>
+    <title>List of Companies</title>
     <style>
         <%@include file="/view/style.css" %>
     </style>
@@ -11,27 +11,22 @@
 <c:import url="/view/navibar.jsp"/>
 <table>
     <tbody>
-
-    <c:if test="${not empty developers}">
+    <c:if test="${not empty companies}">
         <table class="zui-table myform">
             <thead>
             <tr>
-                <th>Developer Name</th>
-                <th>Age</th>
-                <th>Salary</th>
+                <th>Company Name</th>
+                <th>Start Date</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${developers}" var="developer">
+            <c:forEach items="${companies}" var="company">
                 <tr>
                     <td>
-                        <c:out value="${developer.name}"/>
+                        <c:out value="${company.name}"/>
                     </td>
                     <td>
-                        <c:out value="${developer.age}"/>
-                    </td>
-                    <td>
-                        <c:out value="${developer.salary}"/>
+                        <c:out value="${company.startDate}"/>
                     </td>
 
                 </tr>
@@ -39,6 +34,7 @@
             </tbody>
         </table>
     </c:if>
+
     </tbody>
 </table>
 

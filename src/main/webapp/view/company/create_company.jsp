@@ -40,7 +40,7 @@
 </c:if>
 
 <c:if test="${not empty message}">
-    <p style="color: red">${message}</p><br>
+    <p style="color: darkslateblue">${message}</p><br>
 </c:if>
 
 </body>

@@ -31,21 +31,21 @@ public class CompanyServlet extends HttpServlet {
         String action = getAction(req);
         System.out.println(action);
         if (action.startsWith("/findCompany")) {
-            req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/company/find_company.jsp").forward(req, resp);
 
         }
         if (action.startsWith("/createCompany")) {
-            req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
         }
         if (action.startsWith("/deleteCompany")) {
-            req.getRequestDispatcher("/view/delete_company.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/company/delete_company.jsp").forward(req, resp);
         }
         if (action.startsWith("/allCompanies")) {
             List<Company> companies = companyDAO.getAll();
             System.out.println(companies.get(0));
             req.setAttribute("companies", companies);
             System.out.println(companies.get(1));
-            req.getRequestDispatcher("/view/all_companies.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/company/all_companies.jsp").forward(req, resp);
         }
     }
 
@@ -57,11 +57,11 @@ public class CompanyServlet extends HttpServlet {
             List<ErrorMessage> errorMessages = validateCompany(company);
             if (!errorMessages.isEmpty()) {
                 req.setAttribute("errors", errorMessages);
-                req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+                req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
             } else {
                 companyDAO.create(company);
                 req.setAttribute("message", "New Company created: " + company);
-                req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
+                req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
             }
         }
 
@@ -70,10 +70,10 @@ public class CompanyServlet extends HttpServlet {
             final Company company = companyDAO.read(Integer.parseInt(id));
             if (company == null) {
                 req.setAttribute("message", "Company not found");
-                req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
+                req.getRequestDispatcher("/view/company/find_company.jsp").forward(req, resp);
             } else {
                 req.setAttribute("message", String.format("Company found: %s", company));
-                req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
+                req.getRequestDispatcher("/view/company/find_company.jsp").forward(req, resp);
             }
         }
         if (action.startsWith("/deleteCompany")) {
@@ -85,7 +85,7 @@ public class CompanyServlet extends HttpServlet {
             }
             else {companyDAO.delete(companyDAO.read(id));
                 req.setAttribute("message", String.format("Company with ID=%s deleted", id));}
-            req.getRequestDispatcher("/view/delete_company.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/company/delete_company.jsp").forward(req, resp);
         }
 
     }

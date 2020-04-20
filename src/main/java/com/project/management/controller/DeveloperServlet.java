@@ -32,22 +32,22 @@ public class DeveloperServlet extends HttpServlet {
         String action = getAction(req);
         System.out.println(action);
         if (action.startsWith("/findDeveloper")) {
-            req.getRequestDispatcher("/view/find_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/find_developer.jsp").forward(req, resp);
 
         }  if (action.startsWith("/createDeveloper")) {
             req.setAttribute("genders", DeveloperGender.values());
-            req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/create_developer.jsp").forward(req, resp);
         }
          if (action.startsWith("/updateDeveloper")) {
-            req.getRequestDispatcher("/view/update_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/update_developer.jsp").forward(req, resp);
         }
          if (action.startsWith("/deleteDeveloper")) {
-            req.getRequestDispatcher("/view/delete_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/delete_developer.jsp").forward(req, resp);
         }
          if (action.startsWith("/allDevelopers")) {
             List<Developer> developers = developerDAO.getAll();
             req.setAttribute("developers", developers);
-            req.getRequestDispatcher("/view/all_developers.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/all_developers.jsp").forward(req, resp);
         }
     }
 
@@ -64,7 +64,7 @@ public class DeveloperServlet extends HttpServlet {
                 req.setAttribute("genders", DeveloperGender.values());
                 req.setAttribute("message", "Developer created: " + developer.getName());
             }
-            req.getRequestDispatcher("/view/create_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/create_developer.jsp").forward(req, resp);
         }
         if (action.startsWith("/updateDeveloper")) {
             Developer developer = developerDAO.read(Integer.parseInt(req.getParameter("id")));
@@ -78,7 +78,7 @@ public class DeveloperServlet extends HttpServlet {
             developerDAO.update(developer);
             req.setAttribute("message", String.format("Developer updated: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
 }
-            req.getRequestDispatcher("/view/update_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/update_developer.jsp").forward(req, resp);
         }
         if (action.startsWith("/deleteDeveloper")) {
             int id = Integer.parseInt(req.getParameter("id"));
@@ -89,7 +89,7 @@ public class DeveloperServlet extends HttpServlet {
                 }
             else {developerDAO.delete(developerDAO.read(id));
             req.setAttribute("message", String.format("Developer with ID=%s deleted", id));}
-            req.getRequestDispatcher("/view/delete_developer.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/developer/delete_developer.jsp").forward(req, resp);
         }
         if (action.startsWith("/findDeveloper")) {
             final String id = req.getParameter("id").trim();
@@ -101,7 +101,7 @@ public class DeveloperServlet extends HttpServlet {
             else {
                 req.setAttribute("message", String.format("Developer found: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
             }
-            req.getRequestDispatcher("/view/find_developer.jsp").forward(req,resp);
+            req.getRequestDispatcher("/view/developer/find_developer.jsp").forward(req,resp);
         }
 
     }
