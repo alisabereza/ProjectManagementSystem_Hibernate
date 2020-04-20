@@ -2,20 +2,20 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="en-us">
 <head>
-    <title>Delete Developer</title>
+    <title>Delete Company</title>
     <style>
         <%@include file="/view/style.css" %>
     </style>
 </head>
 <body>
 <c:import url="/view/navibar.jsp"/>
-<h3>To delete Developer, provide an ID: </h3>
-<form method="post" action="deleteDeveloper">
+<h3>To delete Company, provide an ID: </h3>
+<form method="post" action="deleteCompany">
     <table>
         <tbody>
         <tr>
             <td>
-                <p>Developer ID: </p>
+                <p>Company ID: </p>
             </td>
             <td><input type="number" name="id"></td>
         </tr>

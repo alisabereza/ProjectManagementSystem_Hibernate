@@ -37,6 +37,9 @@ public class CompanyServlet extends HttpServlet {
         if (action.startsWith("/createCompany")) {
             req.getRequestDispatcher("/view/create_company.jsp").forward(req, resp);
         }
+        if (action.startsWith("/deleteCompany")) {
+            req.getRequestDispatcher("/view/delete_company.jsp").forward(req, resp);
+        }
         if (action.startsWith("/allCompanies")) {
             List<Company> companies = companyDAO.getAll();
             System.out.println(companies.get(0));
@@ -72,6 +75,17 @@ public class CompanyServlet extends HttpServlet {
                 req.setAttribute("message", String.format("Company found: %s", company));
                 req.getRequestDispatcher("/view/find_company.jsp").forward(req, resp);
             }
+        }
+        if (action.startsWith("/deleteCompany")) {
+            int id = Integer.parseInt(req.getParameter("id"));
+            if (companyDAO.read(id)==null)
+
+            {
+                req.setAttribute("message", "Company not found");
+            }
+            else {companyDAO.delete(companyDAO.read(id));
+                req.setAttribute("message", String.format("Company with ID=%s deleted", id));}
+            req.getRequestDispatcher("/view/delete_company.jsp").forward(req, resp);
         }
 
     }
