@@ -2,12 +2,15 @@ package com.project.management.model.customer;
 
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.model.common.DataAccessObject;
+import com.project.management.model.developer.Developer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class CustomerDAO extends DataAccessObject<Customer> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
@@ -81,5 +84,31 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         LOG.debug(String.format("Customer deleted: %s", customer.getName()));
         System.out.println(String.format("Customer deleted: %s", customer.getName()));
         session.close();
+    }
+
+    public List<Customer> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Customer").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Customer findByName(String customerName) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        LOG.debug(String.format("Finding Customer, name = %s", customerName));
+        Query query = session.createQuery("from Customer c where c.name= :name");
+        Customer result= null;
+        try {
+            result = (Customer) query.setParameter("name", customerName).uniqueResult();
+            transaction.commit();
+
+        } catch (Exception e) {
+            System.out.println("Exception in database: " + e.getMessage());
+        }
+        session.close();
+        return result;
     }
 }
