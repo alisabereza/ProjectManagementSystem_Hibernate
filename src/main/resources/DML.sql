@@ -42,21 +42,21 @@ INSERT INTO public.skills ( language, level)
 VALUES ('C++', 3);
 
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Dmitry Potehov', 25, 'man', 2, 1000);
+VALUES ('Dmitry Potehov', 25, 'MAN', 2, 1000);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Nadia Potehova', 25, 'woman', 1, 2000);
+VALUES ('Nadia Potehova', 25, 'WOMAN', 1, 2000);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Mario Nicca', 28, 'man', 3, 1500);
+VALUES ('Mario Nicca', 28, 'MAN', 3, 1500);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Maria Petrova', 32, 'woman', 4, 2000);
+VALUES ('Maria Petrova', 32, 'WOMAN', 4, 2000);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Ivan Bereza', 24, 'man', 1, 1500);
+VALUES ('Ivan Bereza', 24, 'MAN', 1, 1500);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Orest Vyshnya', 30, 'man', 2, 2000);
+VALUES ('Orest Vyshnya', 30, 'MAN', 2, 2000);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Olga Soroka', 29, 'woman', 3, 1500);
+VALUES ('Olga Soroka', 29, 'WOMAN', 3, 1500);
 INSERT INTO public.developers (developer_name, developer_age, developer_gender, company_id, salary)
-VALUES ('Igor Vedmid', 35, 'man', 4, 3000);
+VALUES ('Igor Vedmid', 35, 'MAN', 4, 3000);
 
 INSERT INTO public.projects (project_name, start_date , company_id, cost)
 VALUES ('Smart City', '01-01-2019', 1, 1000000);

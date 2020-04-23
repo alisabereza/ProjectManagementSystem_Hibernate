@@ -2,7 +2,6 @@ package com.project.management.model.customer;
 
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.model.common.DataAccessObject;
-import com.project.management.model.developer.Developer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -20,24 +19,6 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         sessionFactory = HibernateDatabaseConnector.getSessionFactory();
     }
 
-    public Customer findByPhone(String phone) {
-
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        LOG.debug(String.format("Finding customer, phone = %s", phone));
-        Query query = session.createQuery("from Customer c where c.phone = :phone");
-
-        Customer result;
-        try { result = (Customer) query.setParameter("phone", phone).uniqueResult();
-            transaction.commit();}
-        catch (Exception e) {
-            throw new NullPointerException("Customer with the phone number provided does not exist in database");
-        }
-        session.close();
-        return result;
-    }
-
-
     @Override
     public void create(Customer customer) {
         Session session = sessionFactory.openSession();
@@ -46,7 +27,6 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         session.save(customer);
         transaction.commit();
         LOG.debug(String.format("Customer created: %s", customer.getName()));
-        System.out.println(String.format("Customer created: %s", customer.getName()));
         session.close();
     }
 
@@ -70,7 +50,6 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         session.update(customer);
         transaction.commit();
         LOG.debug(String.format("Customer update: %s", customer.getName()));
-        System.out.println(String.format("Customer updated: %s", customer.getName()));
         session.close();
     }
 
@@ -82,15 +61,15 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         session.delete(customer);
         transaction.commit();
         LOG.debug(String.format("Customer deleted: %s", customer.getName()));
-        System.out.println(String.format("Customer deleted: %s", customer.getName()));
         session.close();
     }
 
     public List<Customer> getAll() {
+        LOG.debug("Generating All customers list");
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Customer").getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
             return null;
         }
     }
@@ -106,7 +85,7 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             transaction.commit();
 
         } catch (Exception e) {
-            System.out.println("Exception in database: " + e.getMessage());
+            LOG.error("Exception in database: " + e.getMessage());
         }
         session.close();
         return result;

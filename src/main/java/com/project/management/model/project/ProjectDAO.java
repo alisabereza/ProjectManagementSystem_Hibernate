@@ -2,7 +2,6 @@ package com.project.management.model.project;
 
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.model.common.DataAccessObject;
-import com.project.management.model.company.Company;
 import com.project.management.model.customer.CustomerDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +28,6 @@ public class ProjectDAO extends DataAccessObject<Project> {
         session.save(project);
         transaction.commit();
         LOG.debug(String.format("Project created: %s", project.getName()));
-        System.out.println(String.format("Project created: %s", project.getName()));
         session.close();
     }
 
@@ -58,7 +56,6 @@ public class ProjectDAO extends DataAccessObject<Project> {
         session.delete(project);
         transaction.commit();
         LOG.debug(String.format("Project deleted: %s", project.getName()));
-        System.out.println(String.format("Project deleted: %s", project.getName()));
         session.close();
     }
 
@@ -71,6 +68,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         try {result = (Project) query.setParameter("name", name).uniqueResult();
         transaction.commit();}
         catch (Exception e) {
+            LOG.error(e.getMessage());
             throw new NullPointerException("Project with the phone number provided does not exist in database");
         }
         session.close();
@@ -79,9 +77,10 @@ public class ProjectDAO extends DataAccessObject<Project> {
 
     public List<Project> getAll() {
         try (Session session = sessionFactory.openSession()) {
+            LOG.debug("Generating All projects list");
             return session.createQuery("FROM Project").getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
             return null;
         }
     }

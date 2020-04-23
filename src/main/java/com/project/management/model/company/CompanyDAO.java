@@ -1,6 +1,5 @@
 package com.project.management.model.company;
 
-
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.model.common.DataAccessObject;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +28,6 @@ public class CompanyDAO extends DataAccessObject<Company> {
         transaction.commit();
         session.close();
         LOG.debug(String.format("Company created: %s", company.getName()));
-        System.out.println(String.format("Company created: %s", company.getName()));
     }
 
     @Override
@@ -40,7 +38,7 @@ public class CompanyDAO extends DataAccessObject<Company> {
         Company company = session.get(Company.class, id);
         transaction.commit();
         session.close();
-        LOG.debug(String.format("Company : %s", company));
+        LOG.debug(String.format("Company found: %s", company));
         return company;
     }
 
@@ -56,9 +54,9 @@ public class CompanyDAO extends DataAccessObject<Company> {
         LOG.debug(String.format("Deleting company: %s", company.getName()));
         session.delete(company);
         LOG.debug(String.format("Company deleted: %s", company.getName()));
-        System.out.println(String.format("Company deleted: %s", company.getName()));
         transaction.commit();
         session.close();
+        LOG.debug(String.format("Company deleted: %s", company.getName()));
     }
 
     public Company findByName(String name) {
@@ -72,18 +70,22 @@ public class CompanyDAO extends DataAccessObject<Company> {
         result = (Company) query2.setParameter("name", name).uniqueResult();
         transaction.commit();}
         catch (Exception e) {
+            LOG.error(e.getMessage());
             throw new NullPointerException("Company with the name provided does not exist in database");
         }
         session.close();
+        LOG.debug(String.format("Company found: %s", result));
         return result;
     }
 
     public List<Company> getAll() {
+        LOG.debug("Generating All companies list");
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Company").getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
             return null;
+
         }
     }
 }

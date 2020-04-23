@@ -28,7 +28,6 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         session.save(developer);
         transaction.commit();
         LOG.debug(String.format("Developer created: %s", developer.getName()));
-        System.out.println(String.format("Developer created: %s", developer.getName()));
         session.close();
     }
 
@@ -52,7 +51,6 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         session.update(developer);
         transaction.commit();
         LOG.debug(String.format("Developer updated: %s", developer.getName()));
-        System.out.println(String.format("Developer updated: %s", developer.getName()));
         session.close();
     }
 
@@ -64,7 +62,6 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         session.delete(developer);
         transaction.commit();
         LOG.debug(String.format("Developer deleted: %s", developer.getName()));
-        System.out.println(String.format("Developer deleted: %s", developer.getName()));
         session.close();
     }
 
@@ -79,17 +76,18 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
             transaction.commit();
 
         } catch (Exception e) {
-            System.out.println("Exception in database: " + e.getMessage());
+            LOG.error(e.getMessage());
         }
         session.close();
         return result;
     }
 
     public List<Developer> getAll() {
+        LOG.debug("Generating All developers list");
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Developer").getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
             return null;
         }
     }
