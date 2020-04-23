@@ -1,30 +1,16 @@
 package com.project.management.utils;
 
-public class ErrorMessage {
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+
+@RequiredArgsConstructor
+@NoArgsConstructor
+public @Data class ErrorMessage {
+    @NonNull
     private String field;
+    @NonNull
     private String error;
-
-    public ErrorMessage(String field, String error) {
-        this.field = field;
-        this.error = error;
-    }
-
-    public ErrorMessage() {
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
 }
