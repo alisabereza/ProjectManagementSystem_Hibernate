@@ -30,7 +30,6 @@ public class DeveloperServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
-        System.out.println(action);
         if (action.startsWith("/findDeveloper")) {
             req.getRequestDispatcher("/view/developer/find_developer.jsp").forward(req, resp);
 

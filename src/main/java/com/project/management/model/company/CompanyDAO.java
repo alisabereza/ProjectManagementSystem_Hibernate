@@ -83,7 +83,7 @@ public class CompanyDAO extends DataAccessObject<Company> {
             return session.createQuery("FROM Company").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }

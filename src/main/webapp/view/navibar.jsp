@@ -28,11 +28,11 @@
             <i></i>
         </button>
         <div class="dropdown-content">
-            <a href="${pageContext.request.contextPath}/project/createProject">Create Developer</a>
+            <a href="${pageContext.request.contextPath}/project/createProject">Create Project</a>
             <a href="${pageContext.request.contextPath}/project/findProject">Find by ID</a>
-            <a href="${pageContext.request.contextPath}/project/update">Update Developer</a>
-            <a href="${pageContext.request.contextPath}/project/delete">Delete Developer</a>
-            <a href="${pageContext.request.contextPath}/project/allProjects">List of Developers</a>
+            <a href="${pageContext.request.contextPath}/project/updateProject">Update Project</a>
+            <a href="${pageContext.request.contextPath}/project/deleteProject">Delete Project</a>
+            <a href="${pageContext.request.contextPath}/project/allProjects">List of Project</a>
         </div>
     </div>
     <div class="dropdown">
@@ -40,11 +40,11 @@
             <i></i>
         </button>
         <div class="dropdown-content">
-            <a href="${pageContext.request.contextPath}/customer/createCustomer">Create Developer</a>
+            <a href="${pageContext.request.contextPath}/customer/createCustomer">Create Customer</a>
             <a href="${pageContext.request.contextPath}/customer/findCustomer">Find by ID</a>
-            <a href="${pageContext.request.contextPath}/customer/update">Update Developer</a>
-            <a href="${pageContext.request.contextPath}/customer/delete">Delete Developer</a>
-            <a href="${pageContext.request.contextPath}/customer/allCustomers">List of Developers</a>
+            <a href="${pageContext.request.contextPath}/customer/updateCustomer">Update Customer</a>
+            <a href="${pageContext.request.contextPath}/customer/deleteCustomer">Delete Customer</a>
+            <a href="${pageContext.request.contextPath}/customer/allCustomers">List of Customer</a>
         </div>
     </div>
 </div>

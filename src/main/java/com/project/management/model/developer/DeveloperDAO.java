@@ -90,7 +90,7 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
             return session.createQuery("FROM Developer").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }

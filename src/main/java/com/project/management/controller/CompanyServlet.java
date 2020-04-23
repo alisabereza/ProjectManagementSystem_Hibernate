@@ -29,8 +29,7 @@ public class CompanyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
-        System.out.println(action);
-        if (action.startsWith("/findCompany")) {
+         if (action.startsWith("/findCompany")) {
             req.getRequestDispatcher("/view/company/find_company.jsp").forward(req, resp);
 
         }

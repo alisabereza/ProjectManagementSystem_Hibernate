@@ -73,6 +73,7 @@
 </c:if>
 <c:if test="${not empty message}">
         <p style="color: darkslateblue">${message}</p><br>
+
 </c:if>
 
 
