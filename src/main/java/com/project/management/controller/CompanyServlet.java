@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @WebServlet(urlPatterns = "/company/*")
@@ -34,6 +35,7 @@ public class CompanyServlet extends HttpServlet {
 
         }
         if (action.startsWith("/createCompany")) {
+            req.setAttribute("message", "Date Format is: dd-mmm-yyyy");
             req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
         }
         if (action.startsWith("/deleteCompany")) {
@@ -52,7 +54,7 @@ public class CompanyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
         if (action.startsWith("/createCompany")) {
-            Company company = mapCompany(req);
+            try {Company company = mapCompany(req);
             List<ErrorMessage> errorMessages = validateCompany(company);
             if (!errorMessages.isEmpty()) {
                 req.setAttribute("errors", errorMessages);
@@ -60,8 +62,12 @@ public class CompanyServlet extends HttpServlet {
             } else {
                 companyDAO.create(company);
                 req.setAttribute("message", "New Company created: " + company);
-                req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
+            } }
+            catch (IllegalArgumentException e) {
+                req.setAttribute("message", e.getMessage());
             }
+                req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
+
         }
 
         if (action.startsWith("/findCompany")) {
@@ -90,13 +96,17 @@ public class CompanyServlet extends HttpServlet {
     }
 
     private Company mapCompany(HttpServletRequest req) {
-        final String companyName = req.getParameter("title").trim();
+        try{ final String companyName = req.getParameter("title").trim();
         DateTimeFormatter df = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("dd-MMM-yyyy")
                 .toFormatter(Locale.ENGLISH);
         final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
         return new Company(companyName, startDate);
+    } catch (
+    DateTimeParseException e) {
+        throw new IllegalArgumentException("Date Format should be: dd-mmm-yyyy");
+    }
     }
 
     private List<ErrorMessage> validateCompany(Company company) {

@@ -15,6 +15,7 @@
         <table class="zui-table myform">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Company Name</th>
                 <th>Start Date</th>
             </tr>
@@ -22,6 +23,9 @@
             <tbody>
             <c:forEach items="${companies}" var="company">
                 <tr>
+                    <td>
+                        <c:out value="${company.id}"/>
+                    </td>
                     <td>
                         <c:out value="${company.name}"/>
                     </td>

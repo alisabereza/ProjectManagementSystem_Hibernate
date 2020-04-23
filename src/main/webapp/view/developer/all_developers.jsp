@@ -16,14 +16,19 @@
         <table class="zui-table myform">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Developer Name</th>
                 <th>Age</th>
                 <th>Salary</th>
+                <th>Company</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${developers}" var="developer">
                 <tr>
+                    <td>
+                        <c:out value="${developer.id}"/>
+                    </td>
                     <td>
                         <c:out value="${developer.name}"/>
                     </td>
@@ -33,7 +38,9 @@
                     <td>
                         <c:out value="${developer.salary}"/>
                     </td>
-
+                    <td>
+                        <c:out value="${developer.company.name}"/>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

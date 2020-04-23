@@ -75,7 +75,7 @@ public class DeveloperServlet extends HttpServlet {
             int newSalary = Integer.parseInt(req.getParameter("salary"));
             developer.setSalary(newSalary);
             developerDAO.update(developer);
-            req.setAttribute("message", String.format("Developer updated: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
+            req.setAttribute("message", String.format("Developer updated: %s",developer));
 }
             req.getRequestDispatcher("/view/developer/update_developer.jsp").forward(req, resp);
         }
@@ -98,7 +98,7 @@ public class DeveloperServlet extends HttpServlet {
                 req.setAttribute("message", "Developer not found");
             }
             else {
-                req.setAttribute("message", String.format("Developer found: ID=%s, name=%s, age=%s, salary=%s, company=%s",developer.getId(), developer.getName(), developer.getAge(), developer.getSalary(), developer.getCompany().getName()));
+                req.setAttribute("message", String.format("Developer found: I%s",developer));
             }
             req.getRequestDispatcher("/view/developer/find_developer.jsp").forward(req,resp);
         }
