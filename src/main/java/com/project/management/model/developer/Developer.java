@@ -40,11 +40,11 @@ public @Data class Developer {
     @Column(name="salary")
     private int salary;
 
-    @ManyToOne // connection to Company: many Projects one Company
-    @JoinColumn(name = "company_id") // company_id is Company id
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
-    @ManyToMany //fetch = FetchType.EAGER
+    @ManyToMany
      @JoinTable(
             name = "dev_skills",
             joinColumns = @JoinColumn(name = "developer_id"),
@@ -53,7 +53,7 @@ public @Data class Developer {
     )
     private List<Skill> skills;
 
-    @ManyToMany //fetch = FetchType.EAGER
+    @ManyToMany
     @JoinTable(
             name = "dev_proj",
             joinColumns = @JoinColumn(name = "developer_id"),
@@ -70,16 +70,12 @@ public @Data class Developer {
         this.company = company;
     }
 
-    public Developer(String name, int salary) {
-        this.name = name;
-        this.salary = salary;
-    }
 
     @Override
     public String toString() {
         return "Developer{" +
-                "id" + id +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", gender=" + gender +
                 ", salary=" + salary +

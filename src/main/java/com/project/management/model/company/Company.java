@@ -47,7 +47,7 @@ public @Data class Company {
     public String toString() {
         return "Company{" +
                 "id=" + id +
-                "name='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", start_date=" + startDate +
                 '}';
     }
