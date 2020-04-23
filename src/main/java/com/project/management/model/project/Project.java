@@ -68,4 +68,15 @@ public @Data class Project {
         this.company = company;
         this.cost = cost;
     }
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", start date=" + start_date +
+                ", end date=" + end_date +
+                ", cost=" + cost +
+                ( (company==null)?", null": ", company =" + company.getName()) +
+                '}';
+    }
 }

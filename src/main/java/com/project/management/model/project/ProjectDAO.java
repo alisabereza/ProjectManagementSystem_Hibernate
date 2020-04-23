@@ -2,6 +2,7 @@ package com.project.management.model.project;
 
 import com.project.management.database.HibernateDatabaseConnector;
 import com.project.management.model.common.DataAccessObject;
+import com.project.management.model.company.Company;
 import com.project.management.model.customer.CustomerDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class ProjectDAO extends DataAccessObject<Project> {
     private final static Logger LOG = LogManager.getLogger(CustomerDAO.class);
@@ -74,5 +77,13 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return result;
     }
 
+    public List<Project> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Project").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 
