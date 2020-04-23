@@ -1,5 +1,6 @@
 package com.project.management.controller;
 
+import com.project.management.utils.ActionValidator;
 import com.project.management.utils.ErrorMessage;
 import com.project.management.model.company.Company;
 import com.project.management.model.developer.Developer;
@@ -29,7 +30,7 @@ public class DeveloperServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/findDeveloper")) {
             req.getRequestDispatcher("/view/developer/find_developer.jsp").forward(req, resp);
 
@@ -52,7 +53,7 @@ public class DeveloperServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/createDeveloper")) {
             Developer developer = mapDeveloper(req);
             List<ErrorMessage> errorMessages = validateDeveloper(developer);
@@ -123,9 +124,5 @@ public class DeveloperServlet extends HttpServlet {
         return errorMessages;
     }
 
-    private String getAction (HttpServletRequest req){
-        final String requestURI = req.getRequestURI();
-        String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
-        return requestURI.substring(requestPathWithServletContext.length());
-    }
+
 }

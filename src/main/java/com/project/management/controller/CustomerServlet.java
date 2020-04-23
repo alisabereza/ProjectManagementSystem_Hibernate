@@ -2,6 +2,7 @@ package com.project.management.controller;
 
 import com.project.management.model.customer.Customer;
 import com.project.management.model.customer.CustomerDAO;
+import com.project.management.utils.ActionValidator;
 import com.project.management.utils.EntityValidator;
 import com.project.management.utils.ErrorMessage;
 
@@ -26,7 +27,7 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/findCustomer")) {
             req.getRequestDispatcher("/view/customer/find_customer.jsp").forward(req, resp);
 
@@ -48,7 +49,7 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/createCustomer")) {
             Customer customer = mapCustomer(req);
             List<ErrorMessage> errorMessages = validateCustomer(customer);
@@ -103,8 +104,6 @@ public class CustomerServlet extends HttpServlet {
     private Customer mapCustomer(HttpServletRequest req){
         final String name = req.getParameter("name").trim();
         final String phone = req.getParameter("phone");
-
-        Customer customer = new CustomerDAO().findByName(req.getParameter("companyName"));
         return new Customer(name, phone);
     }
 
@@ -117,10 +116,5 @@ public class CustomerServlet extends HttpServlet {
         return errorMessages;
     }
 
-    private String getAction (HttpServletRequest req){
-        final String requestURI = req.getRequestURI();
-        String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
-        return requestURI.substring(requestPathWithServletContext.length());
-    }
 }
 

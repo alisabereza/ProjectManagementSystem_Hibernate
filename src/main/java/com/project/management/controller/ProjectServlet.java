@@ -4,6 +4,7 @@ import com.project.management.model.company.Company;
 import com.project.management.model.company.CompanyDAO;
 import com.project.management.model.project.Project;
 import com.project.management.model.project.ProjectDAO;
+import com.project.management.utils.ActionValidator;
 import com.project.management.utils.EntityValidator;
 import com.project.management.utils.ErrorMessage;
 
@@ -33,7 +34,7 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/findProject")) {
             req.getRequestDispatcher("/view/project/find_project.jsp").forward(req, resp);
 
@@ -57,7 +58,7 @@ public class ProjectServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/createProject")) {
             try {
                 Project project = mapProject(req);
@@ -131,11 +132,5 @@ public class ProjectServlet extends HttpServlet {
             errorMessages.add(new ErrorMessage("", "Project with this name already exists"));
         }
         return errorMessages;
-    }
-
-    private String getAction(HttpServletRequest req) {
-        final String requestURI = req.getRequestURI();
-        String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
-        return requestURI.substring(requestPathWithServletContext.length());
     }
 }

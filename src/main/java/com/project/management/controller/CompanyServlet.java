@@ -1,5 +1,6 @@
 package com.project.management.controller;
 
+import com.project.management.utils.ActionValidator;
 import com.project.management.utils.ErrorMessage;
 import com.project.management.model.company.Company;
 import com.project.management.model.company.CompanyDAO;
@@ -29,8 +30,8 @@ public class CompanyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
-         if (action.startsWith("/findCompany")) {
+        String action = ActionValidator.getAction(req);
+        if (action.startsWith("/findCompany")) {
             req.getRequestDispatcher("/view/company/find_company.jsp").forward(req, resp);
 
         }
@@ -52,21 +53,22 @@ public class CompanyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getAction(req);
+        String action = ActionValidator.getAction(req);
         if (action.startsWith("/createCompany")) {
-            try {Company company = mapCompany(req);
-            List<ErrorMessage> errorMessages = validateCompany(company);
-            if (!errorMessages.isEmpty()) {
-                req.setAttribute("errors", errorMessages);
-                req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
-            } else {
-                companyDAO.create(company);
-                req.setAttribute("message", "New Company created: " + company);
-            } }
-            catch (IllegalArgumentException e) {
+            try {
+                Company company = mapCompany(req);
+                List<ErrorMessage> errorMessages = validateCompany(company);
+                if (!errorMessages.isEmpty()) {
+                    req.setAttribute("errors", errorMessages);
+                    req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
+                } else {
+                    companyDAO.create(company);
+                    req.setAttribute("message", "New Company created: " + company);
+                }
+            } catch (IllegalArgumentException e) {
                 req.setAttribute("message", e.getMessage());
             }
-                req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
+            req.getRequestDispatcher("/view/company/create_company.jsp").forward(req, resp);
 
         }
 
@@ -83,30 +85,30 @@ public class CompanyServlet extends HttpServlet {
         }
         if (action.startsWith("/deleteCompany")) {
             int id = Integer.parseInt(req.getParameter("id"));
-            if (companyDAO.read(id)==null)
-
-            {
+            if (companyDAO.read(id) == null) {
                 req.setAttribute("message", "Company not found");
+            } else {
+                companyDAO.delete(companyDAO.read(id));
+                req.setAttribute("message", String.format("Company with ID=%s deleted", id));
             }
-            else {companyDAO.delete(companyDAO.read(id));
-                req.setAttribute("message", String.format("Company with ID=%s deleted", id));}
             req.getRequestDispatcher("/view/company/delete_company.jsp").forward(req, resp);
         }
 
     }
 
     private Company mapCompany(HttpServletRequest req) {
-        try{ final String companyName = req.getParameter("title").trim();
-        DateTimeFormatter df = new DateTimeFormatterBuilder()
-                .parseCaseInsensitive()
-                .appendPattern("dd-MMM-yyyy")
-                .toFormatter(Locale.ENGLISH);
-        final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
-        return new Company(companyName, startDate);
-    } catch (
-    DateTimeParseException e) {
-        throw new IllegalArgumentException("Date Format should be: dd-mmm-yyyy");
-    }
+        try {
+            final String companyName = req.getParameter("title").trim();
+            DateTimeFormatter df = new DateTimeFormatterBuilder()
+                    .parseCaseInsensitive()
+                    .appendPattern("dd-MMM-yyyy")
+                    .toFormatter(Locale.ENGLISH);
+            final LocalDate startDate = LocalDate.parse(req.getParameter("date"), df);
+            return new Company(companyName, startDate);
+        } catch (
+                DateTimeParseException e) {
+            throw new IllegalArgumentException("Date Format should be: dd-mmm-yyyy");
+        }
     }
 
     private List<ErrorMessage> validateCompany(Company company) {
@@ -116,13 +118,6 @@ public class CompanyServlet extends HttpServlet {
             errorMessages.add(new ErrorMessage("", "Company with this title already exists"));
         }
         return errorMessages;
-    }
-
-
-    private String getAction(HttpServletRequest req) {
-        final String requestURI = req.getRequestURI();
-        String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
-        return requestURI.substring(requestPathWithServletContext.length());
     }
 }
 
